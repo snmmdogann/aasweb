@@ -14,7 +14,7 @@ export default function HakkimdaPage() {
     <main>
       <section className="mx-auto w-full max-w-6xl px-6 pt-28 pb-16">
         <header className="mx-auto mb-12 max-w-3xl">
-          <h1 className="text-4xl font-bold text-primary-dark sm:text-5xl">
+          <h1 className="text-4xl font-bold text-white sm:text-5xl">
             Hakkımda
           </h1>
         </header>
@@ -22,7 +22,7 @@ export default function HakkimdaPage() {
         <BioSection />
 
         <div className="mx-auto mt-14 max-w-3xl">
-          <h2 className="mb-6 text-2xl font-semibold text-primary-dark">
+          <h2 className="mb-6 text-2xl font-semibold text-white">
             Uzmanlık Alanları
           </h2>
           <UzmanlikBadge />

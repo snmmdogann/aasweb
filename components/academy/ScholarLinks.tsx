@@ -44,12 +44,12 @@ export function ScholarLinks() {
           rel="noopener noreferrer"
           variants={item}
           className={cn(
-            'flex items-center gap-3 rounded-xl border border-ink/5 bg-white px-5 py-3 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+            'flex items-center gap-3 rounded-xl border border-white/10 bg-white/10 px-5 py-3 shadow-sm backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
             hoverCardClass,
           )}
         >
-          <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
-          <span className="font-semibold text-ink">{label}</span>
+          <Icon className="h-6 w-6 text-white/80" aria-hidden="true" />
+          <span className="font-semibold text-white">{label}</span>
         </motion.a>
       ))}
     </motion.div>

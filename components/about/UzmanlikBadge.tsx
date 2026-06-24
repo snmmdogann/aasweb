@@ -30,7 +30,7 @@ export function UzmanlikBadge() {
         <motion.span
           key={area}
           variants={item}
-          className="cursor-default rounded-full bg-primary-light px-4 py-2 text-sm font-medium text-primary-dark transition-colors duration-300 hover:bg-primary hover:text-white"
+          className="cursor-default rounded-full bg-primary-light px-4 py-2 text-sm font-medium text-white transition-colors duration-300 hover:bg-primary-dark hover:text-white"
         >
           {area}
         </motion.span>

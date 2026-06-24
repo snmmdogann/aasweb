@@ -10,7 +10,7 @@ const sources = Array.from(new Set(press.map((item) => item.kaynakAdi)));
 // [DÜZENLE] - gerçek logolar gelince bu gri kutular next/image ile değiştirilecek.
 function LogoBox({ name }: { name: string }) {
   return (
-    <div className="flex h-16 w-40 shrink-0 items-center justify-center rounded-lg bg-ink/5 px-4 text-center text-sm font-semibold text-ink/50">
+    <div className="flex h-16 w-40 shrink-0 items-center justify-center rounded-lg bg-white/10 px-4 text-center text-sm font-semibold text-white/50">
       {name}
     </div>
   );
@@ -36,8 +36,8 @@ export function PressLogosMarquee() {
   return (
     <div className="group relative overflow-hidden">
       {/* Kenarlarda yumuşak geçiş için maske. */}
-      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-white to-transparent" />
-      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-white to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 left-0 z-10 w-16 bg-gradient-to-r from-[#182F57] to-transparent" />
+      <div className="pointer-events-none absolute inset-y-0 right-0 z-10 w-16 bg-gradient-to-l from-[#18573B] to-transparent" />
 
       <div
         className={cn(

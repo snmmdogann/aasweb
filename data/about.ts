@@ -3,14 +3,9 @@
 // yalnızca bu dosya güncellenecek, bileşen kodu değişmeyecek.
 
 export const bioParagraphs: string[] = [
-  // [DÜZENLE]
-  'Lisans eğitimini Süleyman Demirel Üniversitesi Bilgisayar Mühendisliği bölümünde tamamladı; akademik kariyerine aynı alanda yüksek lisans ve doktora çalışmalarıyla devam etti. Bugün Isparta Uygulamalı Bilimler Üniversitesi Bilgisayar Mühendisliği bölümünde öğretim üyesi olarak görev yapıyor.',
-  // [DÜZENLE]
-  'Üniversitedeki Siber Güvenlik Uygulama ve Araştırma Merkezi’nin müdürlüğünü yürütüyor; bu kapsamda akademik araştırmaları sahadaki uygulamalarla buluşturan projeler geliştiriyor. Kriptoloji, sayılar teorisi, bilgi teorisi ve hesaplama teorisi gibi temel alanlardan; ağ güvenliği, adli bilişim, siber istihbarat ve OSINT gibi uygulamalı alanlara uzanan geniş bir araştırma yelpazesine sahip.',
-  // [DÜZENLE]
-  'ISO 27001 Bilgi Güvenliği Yönetim Sistemi Baş Denetçisi olarak kurumların bilgi güvenliği süreçlerini değerlendiriyor; KVKK uyum süreçlerinde danışmanlık veriyor. Teknoloji vadisi ve kurumsal danışmanlık deneyimleriyle, kamu ve özel sektör kuruluşlarına siber güvenlik stratejileri konusunda rehberlik ediyor.',
-  // [DÜZENLE]
-  'Akademik üretkenliğinin yanı sıra; eğitimler, seminerler ve danışmanlık çalışmalarıyla siber güvenlik farkındalığının yaygınlaşmasına katkı sunuyor. Amacı, akademik derinliği sahadaki tecrübeyle birleştirerek hem öğrencilere hem de kurumlara kalıcı değer üretmek.',
+  'Isparta Uygulamalı Bilimler Üniversitesi Teknoloji Fakültesi Bilgisayar Mühendisliği Bölümü\'nde Doç. Dr. olarak görev yapıyorum. Lisans, yüksek lisans ve doktora eğitimimi Süleyman Demirel Üniversitesi\'nde tamamladım.',
+  'Akademik çalışmalarımı siber güvenlik, kriptoloji, ağ güvenliği, adli bilişim, siber istihbarat ve açık kaynak istihbaratı (OSINT) alanlarında sürdürüyorum.',
+  'Bunun yanı sıra bilgi güvenliği, KVKK uyumu ve siber güvenlik farkındalığı konularında eğitimler veriyor; danışmanlık ve proje geliştirme çalışmaları yürütüyorum.',
 ];
 
 export const expertiseAreas: string[] = [

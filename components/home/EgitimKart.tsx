@@ -45,16 +45,16 @@ export function EgitimKart({ training }: { training: Training }) {
     <motion.div
       variants={item}
       className={cn(
-        'group flex h-full flex-col rounded-xl border border-ink/5 bg-white p-6 shadow-sm',
+        'group flex h-full flex-col rounded-xl border border-white/10 bg-white/10 p-6 shadow-sm backdrop-blur-sm',
         hoverCardClass,
       )}
     >
-      <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary-light/20 text-primary">
+      <span className="mb-4 inline-flex h-12 w-12 items-center justify-center rounded-lg bg-primary/15 text-primary">
         <Icon className="h-6 w-6" aria-hidden="true" />
       </span>
 
-      <h3 className="text-lg font-semibold text-ink">{training.baslik}</h3>
-      <p className="mt-2 flex-1 text-sm leading-relaxed text-ink/70">
+      <h3 className="text-lg font-semibold text-white">{training.baslik}</h3>
+      <p className="mt-2 flex-1 text-sm leading-relaxed text-white/70">
         {training.aciklama}
       </p>
 

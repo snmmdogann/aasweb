@@ -11,12 +11,12 @@ const config: Config = {
     extend: {
       colors: {
         primary: {
-          dark: '#293681',
-          DEFAULT: '#4274d9',
-          light: '#95ccdd',
+          dark: '#182F57',
+          DEFAULT: '#1B4661',
+          light: '#19454B',
         },
-        ice: '#d0e7e6',
-        ink: '#1E2430',
+        ice: '#1B6156',
+        ink: '#18573B',
       },
       fontFamily: {
         // Inter, layout.tsx içinde next/font/google ile yüklenip

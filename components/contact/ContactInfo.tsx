@@ -13,7 +13,7 @@ export function ContactInfo() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-lg font-semibold text-primary-dark">E-posta</h2>
+        <h2 className="text-lg font-semibold text-white">E-posta</h2>
         <a
           href={`mailto:${siteConfig.email}`}
           className="mt-2 inline-flex items-center gap-2 text-primary transition-colors hover:text-primary-dark"
@@ -24,7 +24,7 @@ export function ContactInfo() {
       </div>
 
       <div>
-        <h2 className="text-lg font-semibold text-primary-dark">Sosyal Medya</h2>
+        <h2 className="text-lg font-semibold text-white">Sosyal Medya</h2>
         <div className="mt-3 flex gap-3">
           {socialItems.map(({ label, href, Icon }) => (
             <a
@@ -33,7 +33,7 @@ export function ContactInfo() {
               target="_blank"
               rel="noopener noreferrer"
               aria-label={label}
-              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-ink/10 text-primary transition-all duration-300 hover:-translate-y-0.5 hover:border-primary hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              className="inline-flex h-11 w-11 items-center justify-center rounded-lg border border-white/15 text-white/80 transition-all duration-300 hover:-translate-y-0.5 hover:border-primary-light hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               <Icon className="h-5 w-5" aria-hidden="true" />
             </a>

@@ -15,7 +15,7 @@ const container = {
  */
 export function StatsSection() {
   return (
-    <section className="relative overflow-hidden bg-ice/40 py-20">
+    <section className="relative overflow-hidden bg-ice/10 py-20">
       {/* Dekoratif arka plan silüeti (çok silik). [DÜZENLE] - dilenirse detaylı Türkiye SVG'si ile değiştirilebilir. */}
       <svg
         className="pointer-events-none absolute left-1/2 top-1/2 w-[120%] max-w-none -translate-x-1/2 -translate-y-1/2 text-primary-dark opacity-[0.06]"

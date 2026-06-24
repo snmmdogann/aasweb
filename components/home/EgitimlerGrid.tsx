@@ -17,10 +17,10 @@ export function EgitimlerGrid() {
   return (
     <section className="mx-auto w-full max-w-6xl px-6 py-20">
       <div className="mb-12 text-center">
-        <h2 className="text-3xl font-bold text-primary-dark sm:text-4xl">
+        <h2 className="text-3xl font-bold text-white sm:text-4xl">
           Kurumsal Eğitimler
         </h2>
-        <p className="mx-auto mt-3 max-w-2xl text-ink/70">
+        <p className="mx-auto mt-3 max-w-2xl text-white/70">
           Kurumların ihtiyaçlarına yönelik, siber güvenlik ve yazılım
           mühendisliği ekseninde uygulamalı eğitim programları.
         </p>

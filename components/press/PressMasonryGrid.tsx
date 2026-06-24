@@ -30,14 +30,14 @@ function PressCard({ entry }: { entry: PressItem }) {
     return (
       <motion.div
         variants={item}
-        className="mb-6 break-inside-avoid rounded-xl border border-ink/5 bg-white p-4 shadow-sm"
+        className="mb-6 break-inside-avoid rounded-xl border border-white/10 bg-white/10 p-4 shadow-sm backdrop-blur-sm"
       >
         <VideoEmbed src={entry.videoEmbedUrl} title={entry.baslik} />
         <div className="mt-3">
           <p className="text-xs font-semibold uppercase tracking-wide text-primary">
             {entry.kaynakAdi} · {formatDate(entry.tarih)}
           </p>
-          <h3 className="mt-1 font-semibold text-ink">{entry.baslik}</h3>
+          <h3 className="mt-1 font-semibold text-white">{entry.baslik}</h3>
         </div>
       </motion.div>
     );
@@ -51,18 +51,18 @@ function PressCard({ entry }: { entry: PressItem }) {
       rel="noopener noreferrer"
       variants={item}
       className={cn(
-        'mb-6 flex break-inside-avoid flex-col rounded-xl border border-ink/5 bg-white p-5 shadow-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
+        'mb-6 flex break-inside-avoid flex-col rounded-xl border border-white/10 bg-white/10 p-5 shadow-sm backdrop-blur-sm focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2',
         hoverCardClass,
       )}
     >
       {/* [DÜZENLE] - gerçek kaynak logosu gelince next/image ile değiştirilecek. */}
-      <div className="flex h-14 w-32 items-center justify-center rounded-md bg-ink/5 text-center text-sm font-semibold text-ink/50">
+      <div className="flex h-14 w-32 items-center justify-center rounded-md bg-white/10 text-center text-sm font-semibold text-white/50">
         {entry.kaynakAdi}
       </div>
-      <p className="mt-4 text-xs font-medium text-ink/50">
+      <p className="mt-4 text-xs font-medium text-white/50">
         {formatDate(entry.tarih)}
       </p>
-      <h3 className="mt-1 font-semibold text-ink">{entry.baslik}</h3>
+      <h3 className="mt-1 font-semibold text-white">{entry.baslik}</h3>
       <span className="mt-3 inline-flex items-center gap-1 text-sm font-semibold text-primary">
         Habere Git
         <ExternalLink className="h-4 w-4" aria-hidden="true" />

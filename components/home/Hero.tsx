@@ -61,21 +61,21 @@ export function Hero() {
       >
         <motion.p
           variants={item}
-          className="mb-2 text-sm font-semibold uppercase tracking-wider text-primary"
+          className="mb-2 text-sm font-semibold uppercase tracking-wider text-white/70"
         >
           {siteConfig.title}
         </motion.p>
 
         <motion.h1
           variants={item}
-          className="text-4xl font-bold text-primary-dark sm:text-5xl md:text-6xl"
+          className="text-4xl font-bold text-white sm:text-5xl md:text-6xl"
         >
           {siteConfig.name}
         </motion.h1>
 
         <motion.p
           variants={item}
-          className="mt-4 flex h-8 items-center text-xl font-medium text-ink/80 sm:text-2xl"
+          className="mt-4 flex h-8 items-center text-xl font-medium text-white/80 sm:text-2xl"
           aria-live="polite"
         >
           <span>{role}</span>
@@ -85,7 +85,7 @@ export function Hero() {
         {/* [DÜZENLE] - motto/vizyon cümlesi */}
         <motion.p
           variants={item}
-          className="mt-6 max-w-xl text-base leading-relaxed text-ink/70 sm:text-lg"
+          className="mt-6 max-w-xl text-base leading-relaxed text-white/70 sm:text-lg"
         >
           Akademik derinliği sahadaki siber güvenlik tecrübesiyle birleştiriyorum.
         </motion.p>
@@ -96,13 +96,13 @@ export function Hero() {
         >
           <Link
             href="/hakkimda"
-            className="rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(66,116,217,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             [ Hakkımda ]
           </Link>
           <Link
             href="/iletisim"
-            className="rounded-lg border-2 border-primary-light bg-transparent px-6 py-3 text-center font-semibold text-primary-dark transition-all duration-300 hover:-translate-y-0.5 hover:bg-primary-light/20 hover:shadow-[0_12px_24px_-8px_rgba(149,204,221,0.7)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
             [ İletişime Geç ]
           </Link>

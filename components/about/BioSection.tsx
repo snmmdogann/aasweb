@@ -29,7 +29,7 @@ export function BioSection() {
         <motion.p
           key={index}
           variants={item}
-          className="text-lg leading-relaxed text-ink"
+          className="text-lg leading-relaxed text-white/90"
         >
           {paragraph}
         </motion.p>

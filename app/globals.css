@@ -4,7 +4,10 @@
 
 @layer base {
   body {
-    @apply bg-white text-ink antialiased;
+    background: linear-gradient(135deg, #182F57 0%, #1B4661 20%, #19454B 40%, #1B6156 60%, #18573B 80%, #F2E7CE 100%);
+    background-attachment: fixed;
+    @apply text-white antialiased;
+    min-height: 100vh;
   }
 
   /* Klavye ile gezinmede tüm interaktif elemanlarda görünür primary focus halkası. */

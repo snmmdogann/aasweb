@@ -27,15 +27,15 @@ export function PublicationItem({
         ease: 'easeOut',
         delay: Math.min(index, 12) * 0.04,
       }}
-      className="rounded-lg border border-ink/5 bg-white p-4 transition-colors duration-300 hover:bg-ice"
+      className="rounded-lg border border-white/10 bg-white/5 p-4 transition-colors duration-300 hover:bg-white/10"
     >
-      <p className="text-sm font-medium leading-snug text-ink">
+      <p className="text-sm font-medium leading-snug text-white">
         {publication.baslik}
       </p>
-      <p className="mt-1.5 text-xs leading-relaxed text-ink/55">
+      <p className="mt-1.5 text-xs leading-relaxed text-white/55">
         {publication.yazarlar}
       </p>
-      <p className="mt-0.5 text-xs text-ink/45">
+      <p className="mt-0.5 text-xs text-white/45">
         {publication.dergiVeyaKonferans} · {publication.yil}
       </p>
 

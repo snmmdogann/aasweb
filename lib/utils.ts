@@ -12,4 +12,4 @@ export function cn(...inputs: ClassValue[]): string {
 // [DÜZENLE/GENİŞLET] - faz ilerledikçe ortak kart davranışı buraya toplanacak.
 export const hoverCardClass =
   'transition-all duration-300 ease-out hover:-translate-y-1 ' +
-  'hover:shadow-[0_20px_40px_-15px_rgba(66,116,217,0.35)]';
+  'hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.35)]';

@@ -23,7 +23,7 @@ const iconByType: Record<PublicationType, LucideIcon> = {
 
 const accentByType: Record<PublicationType, string> = {
   makale: 'bg-primary text-white',
-  bildiri: 'bg-primary-light text-primary-dark',
+  bildiri: 'bg-primary-light text-white',
   kitap: 'bg-primary-dark text-white',
 };
 
@@ -52,7 +52,7 @@ export function PublicationDropdown({
     <section
       onMouseEnter={() => setOpen(true)}
       onMouseLeave={() => setOpen(false)}
-      className="h-fit overflow-hidden rounded-xl border border-ink/10 bg-white shadow-sm transition-shadow duration-300 hover:shadow-[0_20px_45px_-22px_rgba(41,54,129,0.4)]"
+      className="h-fit overflow-hidden rounded-xl border border-white/10 bg-white/10 shadow-sm backdrop-blur-sm transition-shadow duration-300 hover:shadow-[0_20px_45px_-22px_rgba(24,47,87,0.4)]"
     >
       <button
         type="button"
@@ -69,12 +69,12 @@ export function PublicationDropdown({
           <Icon className="h-5 w-5" aria-hidden="true" />
         </span>
         <span className="flex-1">
-          <span className="block font-semibold text-primary-dark">{label}</span>
-          <span className="block text-sm text-ink/50">{items.length} yayın</span>
+          <span className="block font-semibold text-white">{label}</span>
+          <span className="block text-sm text-white/50">{items.length} yayın</span>
         </span>
         <ChevronDown
           className={cn(
-            'h-5 w-5 shrink-0 text-primary transition-transform duration-300',
+            'h-5 w-5 shrink-0 text-white/70 transition-transform duration-300',
             open && 'rotate-180',
           )}
           aria-hidden="true"
@@ -91,7 +91,7 @@ export function PublicationDropdown({
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden"
           >
-            <div className="border-t border-ink/10 p-4">
+            <div className="border-t border-white/10 p-4">
               <ul className="flex flex-col gap-3">
                 {visible.map((publication, index) => (
                   <PublicationItem

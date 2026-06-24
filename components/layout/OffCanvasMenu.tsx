@@ -20,7 +20,7 @@ interface OffCanvasMenuProps {
 }
 
 /**
- * Ekranın solundan kayarak açılan off-canvas menü.
+ * Sol üst köşeden dairesel clipPath animasyonuyla açılan tam ekran menü.
  * - Arka plana backdrop-blur + koyu overlay uygular (tıklayınca kapanır).
  * - ESC ile kapanır, açıkken Tab odağı panel içinde tutulur (focus-trap).
  * - Açıkken sayfa kaydırması kilitlenir.
@@ -83,36 +83,64 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
             role="dialog"
             aria-modal="true"
             aria-label="Site menüsü"
-            className="fixed left-0 top-0 z-50 flex h-full w-[360px] max-w-[85vw] flex-col bg-primary-dark px-8 pb-8 pt-24 text-white"
-            initial={{ x: '-100%' }}
-            animate={{ x: 0 }}
-            exit={{ x: '-100%' }}
-            transition={{ type: 'tween', ease: 'easeInOut', duration: 0.4 }}
+            className="fixed left-0 top-0 z-50 bg-primary-dark text-white"
+            style={{
+              width: 'min(480px, 90vw)',
+              height: 'min(480px, 90vh)',
+              borderBottomRightRadius: '100%',
+            }}
+            initial={{ clipPath: 'circle(0% at 0% 0%)', opacity: 0 }}
+            animate={{ clipPath: 'circle(141% at 0% 0%)', opacity: 1 }}
+            exit={{ clipPath: 'circle(0% at 0% 0%)', opacity: 0 }}
+            transition={{ type: 'tween', ease: [0.22, 1, 0.36, 1], duration: 0.55 }}
           >
-            <ul className="flex flex-col gap-1">
-              {navLinks.map((link) => {
+            <ul className="absolute inset-0 h-full w-full">
+              {navLinks.map((link, index) => {
                 const active = pathname === link.href;
+                // Çeyrek daire (quarter circle) kavisini takip etmesi için açı hesaplaması
+                const angleDeg = 15 + index * 15; // 15, 30, 45, 60, 75 derece
+                const angleRad = angleDeg * (Math.PI / 180);
+                const radius = 58; // % cinsinden yarıçap
+                const x = Math.cos(angleRad) * radius;
+                const y = Math.sin(angleRad) * radius;
+
                 return (
-                  <li key={link.href}>
-                    <Link
-                      href={link.href}
-                      onClick={onClose}
-                      aria-current={active ? 'page' : undefined}
-                      className={cn(
-                        'group relative inline-block py-2 text-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark',
-                        active ? 'text-primary-light' : 'text-white/90 hover:text-white',
-                      )}
-                    >
-                      {link.label}
-                      <span
+                  <motion.li
+                    key={link.href}
+                    className="absolute"
+                    style={{
+                      left: `calc(40px + ${x}%)`, // Hamburger menü butonunun konumuna göre offset
+                      top: `calc(40px + ${y}%)`,
+                    }}
+                    initial={{ opacity: 0, scale: 0.5 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    transition={{
+                      delay: 0.15 + index * 0.05,
+                      duration: 0.35,
+                      ease: 'easeOut',
+                    }}
+                  >
+                    <div className="-translate-x-1/2 -translate-y-1/2 whitespace-nowrap">
+                      <Link
+                        href={link.href}
+                        onClick={onClose}
+                        aria-current={active ? 'page' : undefined}
                         className={cn(
-                          'absolute -bottom-0.5 left-0 h-0.5 bg-primary-light transition-all duration-300',
-                          active ? 'w-full' : 'w-0 group-hover:w-full',
+                          'group relative inline-block py-2 text-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark',
+                          active ? 'text-primary-light' : 'text-white/90 hover:text-white',
                         )}
-                        aria-hidden="true"
-                      />
-                    </Link>
-                  </li>
+                      >
+                        {link.label}
+                        <span
+                          className={cn(
+                            'absolute -bottom-0.5 left-0 h-0.5 bg-primary-light transition-all duration-300',
+                            active ? 'w-full' : 'w-0 group-hover:w-full',
+                          )}
+                          aria-hidden="true"
+                        />
+                      </Link>
+                    </div>
+                  </motion.li>
                 );
               })}
             </ul>
