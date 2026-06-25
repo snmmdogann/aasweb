@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/', label: 'Anasayfa' },
   { href: '/hakkimda', label: 'Hakkımda' },
   { href: '/akademi', label: 'Akademi' },
-  { href: '/basinda-biz', label: 'Basın' },
+  { href: '/basinda-biz', label: 'Basın ve Medya' },
   { href: '/iletisim', label: 'İletişim' },
 ] as const;
 
@@ -85,8 +85,8 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
             aria-label="Site menüsü"
             className="fixed left-0 top-0 z-50 bg-primary-dark text-white"
             style={{
-              width: 'min(480px, 90vw)',
-              height: 'min(480px, 90vh)',
+              width: 'min(420px, 88vw)',
+              height: 'min(420px, 80vh)',
               borderBottomRightRadius: '100%',
             }}
             initial={{ clipPath: 'circle(0% at 0% 0%)', opacity: 0 }}
@@ -97,20 +97,19 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
             <ul className="absolute inset-0 h-full w-full">
               {navLinks.map((link, index) => {
                 const active = pathname === link.href;
-                // Çeyrek daire (quarter circle) kavisini takip etmesi için açı hesaplaması
-                const angleDeg = 15 + index * 15; // 15, 30, 45, 60, 75 derece
-                const angleRad = angleDeg * (Math.PI / 180);
-                const radius = 58; // % cinsinden yarıçap
-                const x = Math.cos(angleRad) * radius;
-                const y = Math.sin(angleRad) * radius;
+                // Köşegen yerleşim: her madde eşit dikey aralıkla aşağı-sola doğru
+                // dizilir. Yay (sin/cos) yerleşiminin aksine dikey aralık her zaman
+                // eşittir; böylece uzun etiketlerde ("Basın ve Medya") çakışma olmaz.
+                const leftPct = 60 - index * 11; // 60, 49, 38, 27, 16
+                const topPct = 14 + index * 15; // 14, 29, 44, 59, 74
 
                 return (
                   <motion.li
                     key={link.href}
                     className="absolute"
                     style={{
-                      left: `calc(40px + ${x}%)`, // Hamburger menü butonunun konumuna göre offset
-                      top: `calc(40px + ${y}%)`,
+                      left: `calc(24px + ${leftPct}%)`,
+                      top: `calc(48px + ${topPct}%)`, // X butonunun altından başlar
                     }}
                     initial={{ opacity: 0, scale: 0.5 }}
                     animate={{ opacity: 1, scale: 1 }}
