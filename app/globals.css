@@ -143,3 +143,18 @@
     0 0 80px rgba(27, 70, 97, 0.25);
 }
 
+/* ─── Scrollbar Customization ─── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(47, 110, 137, 0.8); /* Theme blue/teal */
+  border-radius: 8px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(47, 110, 137, 1);
+}

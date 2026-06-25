@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { ContactForm } from '@/components/contact/ContactForm';
 import { ContactInfo } from '@/components/contact/ContactInfo';
+import { ContactBackground } from '@/components/contact/ContactBackground';
 import { egitimAdiToBaslik } from '@/data/trainings';
 import type { ContactFormValues } from '@/lib/validations';
 
@@ -26,8 +27,10 @@ export default function IletisimPage({
   }
 
   return (
-    <main className="mx-auto w-full max-w-5xl px-6 pt-28 pb-20">
-      <header className="mb-10">
+    <>
+      <ContactBackground />
+      <main className="relative z-10 mx-auto w-full max-w-5xl px-6 pt-28 pb-20">
+        <header className="mb-10">
         <h1 className="text-4xl font-bold text-white sm:text-5xl">
           İletişim
         </h1>
@@ -42,5 +45,6 @@ export default function IletisimPage({
         <ContactInfo />
       </div>
     </main>
+    </>
   );
 }
