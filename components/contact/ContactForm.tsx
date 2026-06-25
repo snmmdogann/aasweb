@@ -130,7 +130,7 @@ export function ContactForm({
           className={cn(inputClass, errors.konu ? 'border-red-400' : 'border-white/20')}
         >
           {konuOptions.map((konu) => (
-            <option key={konu} value={konu}>
+            <option key={konu} value={konu} className="bg-primary-dark text-white">
               {konu}
             </option>
           ))}
