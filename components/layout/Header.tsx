@@ -44,9 +44,7 @@ export function Header() {
             href="/"
             className="group flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
-            <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-white/10 shadow-sm backdrop-blur transition-all group-hover:bg-white/20 group-hover:scale-105 border border-white/10 text-lg font-bold text-white">
-              AAS
-            </div>
+
             <span className="hidden font-medium tracking-wide text-white sm:block">
               {siteConfig.name}
             </span>

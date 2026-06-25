@@ -1,10 +1,12 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import { User, Send } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/data/site-config';
 import { useTypewriter } from '@/lib/useTypewriter';
+import { CyberNetwork } from './CyberNetwork';
 
 // Hocanın portre fotoğrafı: public/images/ahmet-ali-suzen.jpg dosyasını koyunca
 // otomatik gösterilir. Dosyayı koymadan önce null bırakırsan "AAS" monogramı görünür.
@@ -41,7 +43,7 @@ export function Hero() {
   const role = useTypewriter(siteConfig.role);
 
   return (
-    <section className="mx-auto flex min-h-[88vh] w-full max-w-6xl flex-col items-center gap-12 px-6 pt-28 pb-16 md:flex-row md:gap-16 md:pt-24">
+    <section className="relative mx-auto flex min-h-[88vh] w-full max-w-7xl flex-col items-center gap-12 px-6 pt-28 pb-16 md:flex-row md:gap-16 md:pt-24">
       {/* SOL: Portre placeholder */}
       <motion.div
         className="relative flex shrink-0 items-center justify-center"
@@ -49,9 +51,8 @@ export function Hero() {
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.6, ease: 'easeOut' }}
       >
-        <div className="absolute -inset-6 rounded-full bg-primary-light/40 blur-2xl" aria-hidden="true" />
-        <div className="absolute inset-0 rounded-full ring-2 ring-primary-light" aria-hidden="true" />
-        <div className="relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-primary-dark text-6xl font-bold text-white md:h-72 md:w-72">
+        <div className="absolute -inset-8 rounded-full bg-white/20 blur-[35px] animate-pulse" aria-hidden="true" />
+        <div className="relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-full border border-white/20 shadow-[0_0_40px_rgba(255,255,255,0.4),inset_0_0_20px_rgba(255,255,255,0.2)] bg-gradient-to-br from-primary to-primary-dark text-6xl font-bold text-white md:h-72 md:w-72 transition-all duration-500 hover:shadow-[0_0_60px_rgba(255,255,255,0.7),inset_0_0_30px_rgba(255,255,255,0.3)] hover:scale-[1.02]">
           {portreUrl ? (
             <Image
               src={portreUrl}
@@ -59,7 +60,7 @@ export function Hero() {
               fill
               priority
               sizes="(max-width: 768px) 14rem, 18rem"
-              className="object-cover"
+              className="object-cover scale-[1.05]"
             />
           ) : (
             monogram
@@ -111,18 +112,25 @@ export function Hero() {
         >
           <Link
             href="/hakkimda"
-            className="rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            [ Hakkımda ]
+            <User className="h-5 w-5" aria-hidden="true" />
+            Hakkımda
           </Link>
           <Link
             href="/iletisim"
-            className="rounded-lg bg-primary px-6 py-3 text-center font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            className="inline-flex items-center justify-center gap-2 rounded-lg bg-primary px-6 py-3 font-semibold text-white shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-[0_12px_24px_-8px_rgba(27,70,97,0.6)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
           >
-            [ İletişime Geç ]
+            <Send className="h-5 w-5" aria-hidden="true" />
+            İletişime Geç
           </Link>
         </motion.div>
       </motion.div>
+
+      {/* SAĞ: Siber Bilgi Ağı Animasyonu */}
+      <div className="hidden lg:flex absolute -right-64 top-1/2 -translate-y-1/2 opacity-90 pointer-events-none z-0 xl:-right-40 2xl:-right-20">
+        <CyberNetwork />
+      </div>
     </section>
   );
 }
