@@ -126,14 +126,16 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
                         onClick={onClose}
                         aria-current={active ? 'page' : undefined}
                         className={cn(
-                          'group relative inline-block py-2 text-lg font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark',
-                          active ? 'text-primary-light' : 'text-white/90 hover:text-white',
+                          'group relative inline-block py-2 text-xl font-bold transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark hover:scale-105',
+                          active 
+                            ? 'text-white drop-shadow-[0_0_12px_rgba(255,255,255,1)]' 
+                            : 'text-white/90 drop-shadow-[0_0_4px_rgba(255,255,255,0.4)] hover:text-white hover:drop-shadow-[0_0_12px_rgba(255,255,255,0.9)]',
                         )}
                       >
                         {link.label}
                         <span
                           className={cn(
-                            'absolute -bottom-0.5 left-0 h-0.5 bg-primary-light transition-all duration-300',
+                            'absolute -bottom-0.5 left-0 h-0.5 bg-white transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]',
                             active ? 'w-full' : 'w-0 group-hover:w-full',
                           )}
                           aria-hidden="true"

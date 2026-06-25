@@ -65,7 +65,7 @@ export function EgitimKart({ training }: { training: Training }) {
 
       <Link
         href={`/iletisim?konu=egitim&egitimAdi=${training.slug}`}
-        className="mt-5 inline-flex items-center gap-1 text-sm font-semibold text-primary transition-colors hover:text-primary-dark focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+        className="mt-5 inline-flex items-center gap-1.5 text-sm font-bold text-white drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all hover:drop-shadow-[0_0_12px_rgba(255,255,255,1)] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2"
       >
         Eğitim Talebi Oluştur
         <ArrowRight

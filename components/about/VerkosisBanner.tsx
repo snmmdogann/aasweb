@@ -26,7 +26,7 @@ export function VerkosisBanner() {
           href={siteConfig.verkosisUrl}
           target="_blank"
           rel="noopener noreferrer"
-          className="group inline-flex items-center gap-1.5 text-lg font-semibold text-primary-light transition-colors duration-300 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
+          className="group inline-flex items-center gap-1.5 text-xl font-bold text-white transition-all duration-300 drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] hover:drop-shadow-[0_0_12px_rgba(255,255,255,1)] hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-offset-2 focus-visible:ring-offset-primary-dark"
         >
           verkosis.com
           <ArrowRight
