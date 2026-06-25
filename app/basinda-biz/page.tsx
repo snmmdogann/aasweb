@@ -1,11 +1,11 @@
 import type { Metadata } from 'next';
-import { PressLogosMarquee } from '@/components/press/PressLogosMarquee';
-import { PressMasonryGrid } from '@/components/press/PressMasonryGrid';
+import { PressMarquee } from '@/components/press/PressMarquee';
+import { PressGallery } from '@/components/press/PressGallery';
 
 export const metadata: Metadata = {
-  title: 'Basın',
+  title: 'Basın ve Medya',
   description:
-    'Dr. Öğr. Üyesi Ahmet Ali Süzen — televizyon programları, röportajlar ve basında yer alan haberler.',
+    'Doç. Dr. Ahmet Ali Süzen — basında ve medyada yer aldığı haber ve programlardan görseller.',
 };
 
 export default function BasindaBizPage() {
@@ -13,18 +13,19 @@ export default function BasindaBizPage() {
     <main className="mx-auto w-full max-w-6xl px-6 pt-28 pb-20">
       <header className="mb-10">
         <h1 className="text-4xl font-bold text-white sm:text-5xl">
-          Basın
+          Basın ve Medya
         </h1>
         <p className="mt-3 max-w-2xl text-white/70">
-          Televizyon programları, röportajlar ve basında yer alan haberler.
+          Televizyon programları, röportajlar ve basında yer alan haberlerden
+          görseller.
         </p>
       </header>
 
       <div className="mb-14">
-        <PressLogosMarquee />
+        <PressMarquee />
       </div>
 
-      <PressMasonryGrid />
+      <PressGallery />
     </main>
   );
 }

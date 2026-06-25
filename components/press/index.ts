@@ -1,3 +1,2 @@
-export { PressMasonryGrid } from './PressMasonryGrid';
-export { PressLogosMarquee } from './PressLogosMarquee';
-export { VideoEmbed } from './VideoEmbed';
+export { PressMarquee } from './PressMarquee';
+export { PressGallery } from './PressGallery';
