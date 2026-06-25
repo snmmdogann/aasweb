@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { PublicationList } from '@/components/academy/PublicationList';
 import { ScholarLinks } from '@/components/academy/ScholarLinks';
+import { FloatingBooks } from '@/components/academy/FloatingBooks';
 import { publications } from '@/data/publications';
 
 export const metadata: Metadata = {
@@ -11,26 +12,35 @@ export const metadata: Metadata = {
 
 export default function AkademiPage() {
   return (
-    <main className="mx-auto w-full max-w-4xl px-6 pt-28 pb-20">
-      <header className="mb-10">
-        <h1 className="text-4xl font-bold text-white sm:text-5xl">
-          Akademi
-        </h1>
-        <p className="mt-3 max-w-2xl text-white/70">
-          Akademik yayınlar, makaleler ve bildiriler.
-        </p>
-      </header>
+    <>
+      {/* Arka planda süzülen kitap silüetleri */}
+      <FloatingBooks />
 
-      <ScholarLinks />
+      <main className="relative z-10 mx-auto w-full max-w-5xl px-6 pt-28 pb-20">
+        <header className="mb-12 text-center">
+          <h1 className="text-4xl font-bold text-white sm:text-5xl tracking-tight">
+            Akademi
+          </h1>
+          <p className="mt-3 mx-auto max-w-2xl text-white/60 text-lg">
+            Akademik yayınlar, makaleler, bildiriler ve kitaplar.
+          </p>
+          <p className="mt-1 text-sm text-white/40">
+            Toplam {publications.length} yayın
+          </p>
+        </header>
 
-      <div className="mb-6 mt-14 flex flex-wrap items-baseline justify-between gap-2">
-        <h2 className="text-2xl font-semibold text-white">Yayınlar</h2>
-        <p className="text-sm text-white/50">
-          Toplam {publications.length} yayın · DOI&apos;si olan makalelerde
-          İncele bağlantısı yer alır
-        </p>
-      </div>
-      <PublicationList />
-    </main>
+        <div className="mb-16">
+          <ScholarLinks />
+        </div>
+
+        <section>
+          <h2 className="mb-8 text-center text-2xl font-semibold text-white/90">
+            Yayın Kütüphanesi
+          </h2>
+          <PublicationList />
+        </section>
+      </main>
+    </>
   );
 }
+

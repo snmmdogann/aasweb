@@ -10,7 +10,7 @@ const navLinks = [
   { href: '/', label: 'Anasayfa' },
   { href: '/hakkimda', label: 'Hakkımda' },
   { href: '/akademi', label: 'Akademi' },
-  { href: '/basinda-biz', label: 'Basında Biz' },
+  { href: '/basinda-biz', label: 'Basın' },
   { href: '/iletisim', label: 'İletişim' },
 ] as const;
 

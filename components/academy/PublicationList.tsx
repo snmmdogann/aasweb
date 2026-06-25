@@ -1,5 +1,5 @@
 import { publications, type PublicationType } from '@/data/publications';
-import { PublicationDropdown } from './PublicationDropdown';
+import { BookCard } from './BookCard';
 
 const groups: { tur: PublicationType; label: string }[] = [
   { tur: 'makale', label: 'Makaleler' },
@@ -16,14 +16,15 @@ const grouped = groups.map((group) => ({
 }));
 
 /**
- * Yayınları üç açılır (dropdown) kart halinde yan yana gösterir
- * (Makaleler · Bildiriler · Kitaplar). Her kart hover/tıklama ile açılır.
+ * Yayınları üç 3D kitap kartı halinde yan yana gösterir
+ * (Makaleler · Bildiriler · Kitaplar). Hover'da kitap açılır,
+ * tıklayınca ortaya büyür ve sayfa çevirme efektiyle içerik gösterilir.
  */
 export function PublicationList() {
   return (
-    <div className="grid grid-cols-1 gap-6 md:grid-cols-3 md:items-start">
+    <div className="grid grid-cols-1 gap-10 sm:grid-cols-3 sm:items-start justify-items-center">
       {grouped.map((group) => (
-        <PublicationDropdown
+        <BookCard
           key={group.tur}
           tur={group.tur}
           label={group.label}
@@ -33,3 +34,4 @@ export function PublicationList() {
     </div>
   );
 }
+
