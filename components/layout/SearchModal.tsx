@@ -12,7 +12,7 @@ const staticPages = [
   { id: 'page-home', title: 'Ana Sayfa', type: 'SAYFA', href: '/' },
   { id: 'page-about', title: 'Hakkımda', type: 'SAYFA', href: '/hakkimda' },
   { id: 'page-akademi', title: 'Akademi', type: 'SAYFA', href: '/akademi' },
-  { id: 'page-basinda', title: 'Basında Biz', type: 'SAYFA', href: '/basinda-biz' },
+  { id: 'page-basinda', title: 'Basın ve Medya', type: 'SAYFA', href: '/basinda-biz' },
   { id: 'page-iletisim', title: 'İletişim', type: 'SAYFA', href: '/iletisim' },
 ];
 

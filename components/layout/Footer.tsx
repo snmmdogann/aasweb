@@ -41,7 +41,7 @@ export function Footer() {
               <Link href="/hakkimda" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">Hakkımda</Link>
               <Link href="/akademi" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">Akademi & Yayınlar</Link>
               <Link href="/#egitimler" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">Kurumsal Eğitimler</Link>
-              <Link href="/basinda-biz" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">Basında Biz</Link>
+              <Link href="/basinda-biz" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">Basın ve Medya</Link>
               <Link href="/iletisim" className="w-fit hover:text-white hover:drop-shadow-[0_0_8px_rgba(255,255,255,0.8)] transition-all">İletişim</Link>
             </nav>
           </div>
