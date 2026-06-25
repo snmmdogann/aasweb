@@ -5,7 +5,6 @@ import { Search, ArrowRight, Layout, Shield, FileText, BookOpen, Mic } from 'luc
 import { useEffect, useRef, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { cn } from '@/lib/utils';
-import { trainings } from '@/data/trainings';
 import { publications } from '@/data/publications';
 
 // Dynamically generate search data from real site content
@@ -17,12 +16,7 @@ const staticPages = [
   { id: 'page-iletisim', title: 'İletişim', type: 'SAYFA', href: '/iletisim' },
 ];
 
-const trainingItems = trainings.map((t) => ({
-  id: `tr-${t.slug}`,
-  title: t.baslik,
-  type: 'EĞİTİM',
-  href: '/#egitimler',
-}));
+
 
 const pubItems = publications.map((p) => ({
   id: p.id,
@@ -31,7 +25,7 @@ const pubItems = publications.map((p) => ({
   href: '/akademi',
 }));
 
-const searchData = [...staticPages, ...trainingItems, ...pubItems];
+const searchData = [...staticPages, ...pubItems];
 
 interface SearchModalProps {
   isOpen: boolean;
@@ -134,7 +128,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                       setQuery(e.target.value);
                       setActiveIndex(0);
                     }}
-                    placeholder="Ara: eğitim, makale, yayın, sayfa..."
+                    placeholder="Ara: makale, yayın, sayfa..."
                     className="w-full border-none bg-transparent text-lg text-white placeholder-white/40 outline-none focus:border-none focus:outline-none focus:ring-0"
                     style={{ outline: 'none', boxShadow: 'none' }}
                   />

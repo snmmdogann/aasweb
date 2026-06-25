@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navigation } from '@/components/layout/Navigation';
+import { Footer } from '@/components/layout/Footer';
 import { siteConfig } from '@/data/site-config';
 
 // Inter fontunu CSS değişkeni olarak yükle (tailwind.config.ts'te kullanılıyor).
@@ -80,6 +81,7 @@ export default function RootLayout({
         <div id="main-content" tabIndex={-1}>
           {children}
         </div>
+        <Footer />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
