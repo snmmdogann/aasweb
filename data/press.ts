@@ -10,6 +10,8 @@ export interface PressItem {
   kaynakAdi: string;
   /** Kaynak logosu (şimdilik placeholder) */
   kaynakLogoUrl: string;
+  /** Haber/röportaj fotoğrafı — public/images/press/ altındaki dosya yolu. Örn: '/images/press/trt-roportaj.jpg' */
+  gorselUrl?: string;
   /** Video kayıtları için embed URL */
   videoEmbedUrl?: string;
   /** Haber kayıtları için dış bağlantı */

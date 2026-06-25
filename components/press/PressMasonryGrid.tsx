@@ -1,5 +1,6 @@
 'use client';
 
+import Image from 'next/image';
 import { motion } from 'framer-motion';
 import { ExternalLink } from 'lucide-react';
 import { press, type PressItem } from '@/data/press';
@@ -55,7 +56,18 @@ function PressCard({ entry }: { entry: PressItem }) {
         hoverCardClass,
       )}
     >
-      {/* [DÜZENLE] - gerçek kaynak logosu gelince next/image ile değiştirilecek. */}
+      {/* Haber fotoğrafı varsa kartın üstünde gösterilir. */}
+      {entry.gorselUrl && (
+        <div className="relative mb-4 aspect-video w-full overflow-hidden rounded-lg">
+          <Image
+            src={entry.gorselUrl}
+            alt={entry.baslik}
+            fill
+            sizes="(max-width: 768px) 100vw, 33vw"
+            className="object-cover"
+          />
+        </div>
+      )}
       <div className="flex h-14 w-32 items-center justify-center rounded-md bg-white/10 text-center text-sm font-semibold text-white/50">
         {entry.kaynakAdi}
       </div>

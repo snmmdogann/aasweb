@@ -1,9 +1,14 @@
 'use client';
 
 import { motion } from 'framer-motion';
+import Image from 'next/image';
 import Link from 'next/link';
 import { siteConfig } from '@/data/site-config';
 import { useTypewriter } from '@/lib/useTypewriter';
+
+// Hocanın portre fotoğrafı: public/images/ahmet-ali-suzen.jpg dosyasını koyunca
+// otomatik gösterilir. Dosyayı koymadan önce null bırakırsan "AAS" monogramı görünür.
+const portreUrl: string | null = '/images/ahmet-ali-suzen.jpg';
 
 const container = {
   hidden: {},
@@ -46,9 +51,19 @@ export function Hero() {
       >
         <div className="absolute -inset-6 rounded-full bg-primary-light/40 blur-2xl" aria-hidden="true" />
         <div className="absolute inset-0 rounded-full ring-2 ring-primary-light" aria-hidden="true" />
-        <div className="relative flex h-56 w-56 items-center justify-center rounded-full bg-gradient-to-br from-primary to-primary-dark text-6xl font-bold text-white md:h-72 md:w-72">
-          {/* [DÜZENLE] - gerçek portre görseli gelince next/image ile değiştirilecek */}
-          {monogram}
+        <div className="relative flex h-56 w-56 items-center justify-center overflow-hidden rounded-full bg-gradient-to-br from-primary to-primary-dark text-6xl font-bold text-white md:h-72 md:w-72">
+          {portreUrl ? (
+            <Image
+              src={portreUrl}
+              alt={siteConfig.name}
+              fill
+              priority
+              sizes="(max-width: 768px) 14rem, 18rem"
+              className="object-cover"
+            />
+          ) : (
+            monogram
+          )}
         </div>
       </motion.div>
 

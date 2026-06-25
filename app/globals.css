@@ -4,7 +4,7 @@
 
 @layer base {
   body {
-    background: linear-gradient(135deg, #182F57 0%, #1B4661 20%, #19454B 40%, #1B6156 60%, #18573B 80%, #F2E7CE 100%);
+    background: linear-gradient(135deg, #35567F 0%, #2F6E89 38%, #2E8A85 70%, #3A9C8A 100%);
     background-attachment: fixed;
     @apply text-white antialiased;
     min-height: 100vh;
