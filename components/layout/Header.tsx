@@ -38,17 +38,20 @@ export function Header() {
           scrolled ? 'bg-primary-dark/80 py-4 backdrop-blur-md shadow-sm border-b border-white/10' : 'bg-transparent py-6',
         )}
       >
-        <div className="mx-auto flex w-full max-w-7xl items-center justify-between px-6 pl-24 lg:px-8 lg:pl-24">
-          {/* Logo (Sol Taraf) - pl-24 ile mobildeki hamburger menüye yer bırakır */}
+        <div className="relative flex w-full items-center px-6 lg:px-8">
+          {/* Logo — menü simgesinin yanında */}
           <Link
             href="/"
-            className="group flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
+            className="absolute left-20 top-1/2 -translate-y-1/2 group flex items-center gap-3 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
 
             <span className="hidden font-medium tracking-wide text-white sm:block">
               {siteConfig.name}
             </span>
           </Link>
+
+          {/* Spacer — arama butonunu sağa iter */}
+          <div className="ml-auto"></div>
 
           {/* Sağ Taraf - Sadece Arama Butonu */}
           <div className="flex items-center">

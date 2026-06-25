@@ -8,6 +8,7 @@
     background-attachment: fixed;
     @apply text-white antialiased;
     min-height: 100vh;
+    overflow-x: hidden;
   }
 
   /* Klavye ile gezinmede tüm interaktif elemanlarda görünür primary focus halkası. */
