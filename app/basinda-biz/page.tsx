@@ -24,6 +24,7 @@ export default async function BasindaBizPage() {
     id: row.id,
     tur: row.tur as 'medya' | 'haber',
     baslik: row.baslik,
+    aciklama: row.aciklama,
     imageUrl: row.imageUrl,
     haberUrl: row.haberUrl,
   }));
