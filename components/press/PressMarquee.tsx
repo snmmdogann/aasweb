@@ -1,11 +1,15 @@
 'use client';
 
-import { pressImages, type PressImage } from '@/data/press';
 import { cn } from '@/lib/utils';
 import { useReducedMotion } from '@/lib/useReducedMotion';
 
+export interface MarqueeImage {
+  id: string;
+  src: string;
+}
+
 // Tek görsel — sabit yükseklik, doğal genişlik (kırpılmadan tam görünür).
-function MarqueeImage({ image }: { image: PressImage }) {
+function MarqueeImageItem({ image }: { image: MarqueeImage }) {
   return (
     <div className="h-40 shrink-0 overflow-hidden rounded-xl border border-white/10 bg-black/20 shadow-lg md:h-48">
       {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -24,7 +28,7 @@ function MarqueeRow({
   images,
   reverse = false,
 }: {
-  images: PressImage[];
+  images: MarqueeImage[];
   reverse?: boolean;
 }) {
   return (
@@ -37,7 +41,7 @@ function MarqueeRow({
         )}
       >
         {[...images, ...images].map((image, index) => (
-          <MarqueeImage key={`${image.id}-${index}`} image={image} />
+          <MarqueeImageItem key={`${image.id}-${index}`} image={image} />
         ))}
       </div>
     </div>
@@ -48,14 +52,17 @@ function MarqueeRow({
  * Basın görsellerini iki sıra halinde, zıt yönlerde kayan bir bant olarak gösterir.
  * Yazı/bağlantı yoktur — yalnızca görseller. Üzerine gelince durur.
  * prefers-reduced-motion açıksa statik bir şerit olarak kalır.
+ * Görseller veritabanından (medya öğeleri) prop olarak alınır.
  */
-export function PressMarquee() {
+export function PressMarquee({ images }: { images: MarqueeImage[] }) {
   const reduced = useReducedMotion();
 
+  if (images.length === 0) return null;
+
   // Görselleri iki sıraya bölerek daha dolu bir görünüm elde et.
-  const mid = Math.ceil(pressImages.length / 2);
-  const rowTop = pressImages.slice(0, mid);
-  const rowBottom = pressImages.slice(mid);
+  const mid = Math.ceil(images.length / 2);
+  const rowTop = images.slice(0, mid);
+  const rowBottom = images.slice(mid);
 
   return (
     <div
@@ -66,14 +73,14 @@ export function PressMarquee() {
     >
       {reduced ? (
         <div className="flex w-max gap-5">
-          {pressImages.map((image) => (
-            <MarqueeImage key={image.id} image={image} />
+          {images.map((image) => (
+            <MarqueeImageItem key={image.id} image={image} />
           ))}
         </div>
       ) : (
         <>
           <MarqueeRow images={rowTop} />
-          <MarqueeRow images={rowBottom} reverse />
+          <MarqueeRow images={rowBottom.length > 0 ? rowBottom : rowTop} reverse />
         </>
       )}
     </div>

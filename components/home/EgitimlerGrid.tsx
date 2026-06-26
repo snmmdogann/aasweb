@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { trainings } from '@/data/trainings';
+import type { Training } from '@/data/trainings';
 import { EgitimKart } from './EgitimKart';
 
 const container = {
@@ -13,7 +13,7 @@ const container = {
  * Anasayfanın "Kurumsal Eğitimler" bölümü: trainings.ts'ten beslenen,
  * scroll'a girince stagger ile beliren responsive 4'lü kart grid'i.
  */
-export function EgitimlerGrid() {
+export function EgitimlerGrid({ trainings }: { trainings: Training[] }) {
   return (
     <section className="relative w-full py-20 overflow-hidden">
       <div className="absolute inset-0 pointer-events-none">

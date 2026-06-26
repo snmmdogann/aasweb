@@ -1,9 +1,16 @@
 'use client';
 
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { AnimatePresence, motion } from 'framer-motion';
-import { ChevronLeft, ChevronRight, X } from 'lucide-react';
-import { pressImages } from '@/data/press';
+import { ChevronLeft, ChevronRight, ExternalLink, X } from 'lucide-react';
+
+export interface PublicPressItem {
+  id: string;
+  tur: 'medya' | 'haber';
+  baslik: string | null;
+  imageUrl: string;
+  haberUrl: string | null;
+}
 
 const container = {
   hidden: {},
@@ -16,28 +23,37 @@ const item = {
 };
 
 /**
- * Basın görsellerinin masonry (CSS columns) galerisi.
- * Görseller doğal en/boy oranıyla, kırpılmadan tam gösterilir.
- * Bir görsele tıklanınca tam ekran lightbox açılır (ok tuşları / ESC ile gezinme).
+ * Basın içeriklerinin masonry (CSS columns) galerisi. İki tür öğe destekler:
+ *  - "medya": tıklanınca tam ekran lightbox açan görsel (ok tuşları / ESC ile gezinme).
+ *  - "haber": kapak görseli + "HABER" rozeti olan, tıklanınca haberUrl'i yeni
+ *    sekmede açan ayırt edici kart.
  */
-export function PressGallery() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
-  const isOpen = activeIndex !== null;
+export function PressGallery({ items }: { items: PublicPressItem[] }) {
+  // Lightbox yalnızca medya görsellerinde gezinir.
+  const mediaItems = useMemo(
+    () => items.filter((i) => i.tur === 'medya'),
+    [items],
+  );
 
-  const close = useCallback(() => setActiveIndex(null), []);
+  const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
+  const isOpen = activeMediaIndex !== null;
+
+  const close = useCallback(() => setActiveMediaIndex(null), []);
   const next = useCallback(
-    () => setActiveIndex((i) => (i === null ? i : (i + 1) % pressImages.length)),
-    [],
+    () =>
+      setActiveMediaIndex((i) =>
+        i === null ? i : (i + 1) % mediaItems.length,
+      ),
+    [mediaItems.length],
   );
   const prev = useCallback(
     () =>
-      setActiveIndex((i) =>
-        i === null ? i : (i - 1 + pressImages.length) % pressImages.length,
+      setActiveMediaIndex((i) =>
+        i === null ? i : (i - 1 + mediaItems.length) % mediaItems.length,
       ),
-    [],
+    [mediaItems.length],
   );
 
-  // Klavye ile gezinme + açıkken arka plan kaymasını engelle.
   useEffect(() => {
     if (!isOpen) return;
     const onKey = (e: KeyboardEvent) => {
@@ -53,6 +69,14 @@ export function PressGallery() {
     };
   }, [isOpen, close, next, prev]);
 
+  if (items.length === 0) {
+    return (
+      <p className="rounded-2xl border border-white/10 bg-white/5 p-10 text-center text-white/50">
+        Henüz içerik eklenmedi.
+      </p>
+    );
+  }
+
   return (
     <>
       <motion.div
@@ -62,28 +86,75 @@ export function PressGallery() {
         whileInView="show"
         viewport={{ once: true, amount: 0.05 }}
       >
-        {pressImages.map((image, index) => (
-          <motion.button
-            key={image.id}
-            type="button"
-            variants={item}
-            onClick={() => setActiveIndex(index)}
-            className="group block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
-          >
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img
-              src={image.src}
-              alt={`Basın görseli ${index + 1}`}
-              loading="lazy"
-              className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
-            />
-          </motion.button>
-        ))}
+        {items.map((it) => {
+          if (it.tur === 'haber') {
+            return (
+              <motion.a
+                key={it.id}
+                href={it.haberUrl ?? '#'}
+                target="_blank"
+                rel="noopener noreferrer"
+                variants={item}
+                className="group relative block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              >
+                <span className="absolute left-3 top-3 z-10 rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-lg">
+                  Haber
+                </span>
+                {it.imageUrl ? (
+                  // eslint-disable-next-line @next/next/no-img-element
+                  <img
+                    src={it.imageUrl}
+                    alt={it.baslik ?? 'Haber'}
+                    loading="lazy"
+                    className="w-full transition-transform duration-500 group-hover:scale-[1.04]"
+                  />
+                ) : (
+                  <div className="flex aspect-video w-full items-center justify-center bg-gradient-to-br from-primary-dark to-primary text-white/40">
+                    <ExternalLink className="h-8 w-8" />
+                  </div>
+                )}
+                {/* Hover overlay + başlık */}
+                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
+                  <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
+                    Habere Git <ExternalLink className="h-3.5 w-3.5" />
+                  </span>
+                </div>
+                {it.baslik && (
+                  <div className="p-4">
+                    <p className="line-clamp-2 text-sm font-medium text-white/90">
+                      {it.baslik}
+                    </p>
+                  </div>
+                )}
+              </motion.a>
+            );
+          }
+
+          // Medya öğesi → lightbox açar.
+          const mediaIndex = mediaItems.findIndex((m) => m.id === it.id);
+          return (
+            <motion.button
+              key={it.id}
+              type="button"
+              variants={item}
+              onClick={() => setActiveMediaIndex(mediaIndex)}
+              className="group block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+            >
+              {/* eslint-disable-next-line @next/next/no-img-element */}
+              <img
+                src={it.imageUrl}
+                alt={it.baslik ?? 'Basın görseli'}
+                loading="lazy"
+                className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
+              />
+            </motion.button>
+          );
+        })}
       </motion.div>
 
-      {/* Lightbox */}
+      {/* Lightbox (yalnızca medya) */}
       <AnimatePresence>
-        {isOpen && (
+        {isOpen && activeMediaIndex !== null && mediaItems[activeMediaIndex] && (
           <motion.div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -100,34 +171,38 @@ export function PressGallery() {
               <X className="h-6 w-6" />
             </button>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                prev();
-              }}
-              aria-label="Önceki"
-              className="absolute left-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:left-6"
-            >
-              <ChevronLeft className="h-7 w-7" />
-            </button>
+            {mediaItems.length > 1 && (
+              <>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    prev();
+                  }}
+                  aria-label="Önceki"
+                  className="absolute left-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:left-6"
+                >
+                  <ChevronLeft className="h-7 w-7" />
+                </button>
 
-            <button
-              type="button"
-              onClick={(e) => {
-                e.stopPropagation();
-                next();
-              }}
-              aria-label="Sonraki"
-              className="absolute right-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:right-6"
-            >
-              <ChevronRight className="h-7 w-7" />
-            </button>
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    next();
+                  }}
+                  aria-label="Sonraki"
+                  className="absolute right-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:right-6"
+                >
+                  <ChevronRight className="h-7 w-7" />
+                </button>
+              </>
+            )}
 
             <motion.img
-              key={activeIndex}
-              src={pressImages[activeIndex].src}
-              alt={`Basın görseli ${activeIndex + 1}`}
+              key={activeMediaIndex}
+              src={mediaItems[activeMediaIndex].imageUrl}
+              alt={mediaItems[activeMediaIndex].baslik ?? 'Basın görseli'}
               onClick={(e) => e.stopPropagation()}
               initial={{ opacity: 0, scale: 0.96 }}
               animate={{ opacity: 1, scale: 1 }}

@@ -1,12 +1,9 @@
-// Kurumsal eğitimler — FAZ 2'de EgitimlerGrid tarafından kullanılacak.
-// [DÜZENLE] - gerçek eğitim katalogu ile değiştirilecek.
+
 
 export interface Training {
-  /** URL/sorgu parametrelerinde kullanılacak benzersiz kısa ad */
   slug: string;
   baslik: string;
   aciklama: string;
-  /** lucide-react ikon adı (FAZ 2'de eşlenecek) */
   icon: string;
 }
 

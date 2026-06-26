@@ -1,33 +1,11 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import {
-  ArrowRight,
-  BadgeCheck,
-  Code2,
-  Fingerprint,
-  FileLock2,
-  Network,
-  Radar,
-  ShieldAlert,
-  Terminal,
-  type LucideIcon,
-} from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import Link from 'next/link';
 import type { Training } from '@/data/trainings';
 import { cn, hoverCardClass } from '@/lib/utils';
-
-// trainings.ts'teki `icon` string'ini gerçek lucide bileşenine eşle.
-const iconMap: Record<string, LucideIcon> = {
-  ShieldAlert,
-  Code2,
-  Fingerprint,
-  FileLock2,
-  Network,
-  BadgeCheck,
-  Radar,
-  Terminal,
-};
+import { getTrainingIcon } from '@/lib/training-icons';
 
 const item = {
   hidden: { opacity: 0, y: 80, scale: 0.9 },
@@ -44,7 +22,7 @@ const item = {
  * iletişim sayfasına (ön-doldurulmuş konu/eğitim ile) yönlendiren talep butonu.
  */
 export function EgitimKart({ training }: { training: Training }) {
-  const Icon = iconMap[training.icon] ?? ShieldAlert;
+  const Icon = getTrainingIcon(training.icon);
 
   return (
     <motion.div

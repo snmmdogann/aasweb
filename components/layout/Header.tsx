@@ -6,6 +6,7 @@ import { usePathname } from 'next/navigation';
 import { useState, useEffect } from 'react';
 import { cn } from '@/lib/utils';
 import { SearchModal } from './SearchModal';
+import { AdminMenu } from './AdminMenu';
 import { siteConfig } from '@/data/site-config';
 
 const navLinks = [
@@ -53,8 +54,8 @@ export function Header() {
           {/* Spacer — arama butonunu sağa iter */}
           <div className="ml-auto"></div>
 
-          {/* Sağ Taraf - Sadece Arama Butonu */}
-          <div className="flex items-center">
+          {/* Sağ Taraf - Arama ve Yönetici Butonları */}
+          <div className="flex items-center gap-1">
             <button
               onClick={() => setIsSearchOpen(true)}
               className="flex h-10 w-10 items-center justify-center rounded-lg text-white/80 transition-colors hover:bg-white/10 hover:text-white focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary-light focus-visible:ring-offset-2 focus-visible:ring-offset-transparent border border-transparent hover:border-white/10"
@@ -62,6 +63,7 @@ export function Header() {
             >
               <Search className="h-5 w-5" />
             </button>
+            <AdminMenu />
           </div>
         </div>
       </header>
