@@ -14,7 +14,11 @@ export async function GET() {
   try {
     const rows = await prisma.siteContent.findMany();
     const map: Record<string, string> = {};
-    for (const row of rows) map[row.id] = row.value;
+    // admin.* anahtarları (kullanıcı adı / şifre hash'i) istemciye sızdırılmaz.
+    for (const row of rows) {
+      if (row.id.startsWith('admin.')) continue;
+      map[row.id] = row.value;
+    }
     return NextResponse.json(map);
   } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });
@@ -38,6 +42,13 @@ export async function PUT(request: NextRequest) {
     }
 
     const { id, value } = parsed.data;
+    // Kimlik bilgileri yalnızca /api/admin/credentials üzerinden değiştirilebilir.
+    if (id.startsWith('admin.')) {
+      return NextResponse.json(
+        { error: 'Bu anahtar bu uçtan değiştirilemez' },
+        { status: 403 },
+      );
+    }
     const saved = await prisma.siteContent.upsert({
       where: { id },
       update: { value },
