@@ -107,19 +107,19 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
             onClick={onClose}
           />
           <motion.div
-            className="fixed left-1/2 top-[10%] z-[101] w-full max-w-[600px] -translate-x-1/2 px-4"
-            initial={{ opacity: 0, y: -20, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -20, scale: 0.95 }}
+            className="fixed left-1/2 top-[10%] z-[101] w-full max-w-[600px] px-4"
+            initial={{ opacity: 0, x: '-50%', y: -20, scale: 0.95 }}
+            animate={{ opacity: 1, x: '-50%', y: 0, scale: 1 }}
+            exit={{ opacity: 0, x: '-50%', y: -20, scale: 0.95 }}
             transition={{ duration: 0.2, ease: 'easeOut' }}
           >
             {/* Modal Container */}
             <div className="flex flex-col overflow-hidden rounded-3xl border border-white/20 bg-ink/90 backdrop-blur-xl shadow-[0_0_40px_rgba(0,0,0,0.5)]">
               
               {/* Search Input Area */}
-              <div className="p-4 pb-2">
-                <div className="flex items-center rounded-full border border-white/30 bg-white/5 px-5 py-3 shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all focus-within:border-white/80 focus-within:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
-                  <Search className="mr-3 h-6 w-6 text-white/50" />
+              <div className="p-3 sm:p-4 pb-2">
+                <div className="flex items-center rounded-full border border-white/30 bg-white/5 px-4 sm:px-5 py-2.5 sm:py-3 shadow-[0_0_15px_rgba(255,255,255,0.05)] transition-all focus-within:border-white/80 focus-within:shadow-[0_0_20px_rgba(255,255,255,0.3)]">
+                  <Search className="mr-2 sm:mr-3 h-5 w-5 sm:h-6 sm:w-6 text-white/50 shrink-0" />
                   <input
                     ref={inputRef}
                     type="text"
@@ -164,20 +164,20 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                         )}
                       >
                         {/* Sol Kısım: İkon ve Başlık */}
-                        <div className="flex items-center gap-3">
-                          {item.type === 'SAYFA' && <Layout className={cn("h-5 w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
-                          {item.type === 'EĞİTİM' && <Shield className={cn("h-5 w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
-                          {item.type === 'MAKALE' && <FileText className={cn("h-5 w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
-                          {item.type === 'KİTAP' && <BookOpen className={cn("h-5 w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
-                          {item.type === 'BİLDİRİ' && <Mic className={cn("h-5 w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
+                        <div className="flex items-center gap-2 sm:gap-3 flex-1 min-w-0 pr-2">
+                          {item.type === 'SAYFA' && <Layout className={cn("h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
+                          {item.type === 'EĞİTİM' && <Shield className={cn("h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
+                          {item.type === 'MAKALE' && <FileText className={cn("h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
+                          {item.type === 'KİTAP' && <BookOpen className={cn("h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
+                          {item.type === 'BİLDİRİ' && <Mic className={cn("h-4 w-4 sm:h-5 sm:w-5 shrink-0 transition-colors", isActive ? "text-white drop-shadow-[0_0_5px_rgba(255,255,255,0.8)]" : "text-white/40 group-hover:text-white/60")} />}
                           
-                          <span className="font-medium line-clamp-1">{item.title}</span>
+                          <span className="font-medium truncate text-sm sm:text-base">{item.title}</span>
                         </div>
 
                         {/* Sağ Kısım: Rozet ve Ok */}
-                        <div className="flex items-center gap-3">
+                        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
                           <span className={cn(
-                            "rounded border px-2 py-0.5 text-[10px] font-bold tracking-wider transition-colors",
+                            "rounded border px-1.5 sm:px-2 py-0.5 text-[9px] sm:text-[10px] font-bold tracking-wider transition-colors whitespace-nowrap",
                             isActive 
                               ? "border-white/40 text-white bg-white/10" 
                               : "border-white/10 text-white/40 group-hover:border-white/20"
@@ -185,7 +185,7 @@ export function SearchModal({ isOpen, onClose }: SearchModalProps) {
                             {item.type}
                           </span>
                           <ArrowRight className={cn(
-                            "h-4 w-4 transition-transform duration-300",
+                            "hidden sm:block h-4 w-4 transition-transform duration-300",
                             isActive ? "text-white translate-x-1" : "text-white/20"
                           )} />
                         </div>
