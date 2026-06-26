@@ -114,12 +114,12 @@ export interface UpdateCredentialsResult {
 }
 
 /**
- * Mevcut şifre doğrulandıktan sonra yönetici kullanıcı adı ve şifresini günceller.
- * Yeni şifre bcrypt ile hash'lenip SiteContent tablosunda saklanır.
+ * Mevcut şifre doğrulandıktan sonra yalnızca yönetici şifresini günceller.
+ * Kullanıcı adı sabittir, değiştirilmez. Yeni şifre bcrypt ile hash'lenip
+ * SiteContent tablosunda saklanır.
  */
 export async function updateCredentials(
   currentPassword: string,
-  newUsername: string,
   newPassword: string,
 ): Promise<UpdateCredentialsResult> {
   const creds = await getStoredCredentials();
@@ -128,21 +128,11 @@ export async function updateCredentials(
     return { ok: false, error: 'Mevcut şifre hatalı' };
   }
 
-  const username = newUsername.trim();
-  if (username.length < 3) {
-    return { ok: false, error: 'Kullanıcı adı en az 3 karakter olmalı' };
-  }
   if (newPassword.length < 4) {
     return { ok: false, error: 'Yeni şifre en az 4 karakter olmalı' };
   }
 
   const hash = await bcrypt.hash(newPassword, 10);
-
-  await prisma.siteContent.upsert({
-    where: { id: USERNAME_KEY },
-    update: { value: username },
-    create: { id: USERNAME_KEY, value: username },
-  });
   await prisma.siteContent.upsert({
     where: { id: PASSWORD_HASH_KEY },
     update: { value: hash },
