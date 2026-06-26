@@ -15,7 +15,9 @@ export function ContactInfo() {
       <div>
         <h2 className="text-lg font-semibold text-white">E-posta</h2>
         <a
-          href={`mailto:${siteConfig.email}`}
+          href={`https://mail.google.com/mail/?view=cm&fs=1&to=${encodeURIComponent(siteConfig.email)}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="mt-2 inline-flex items-center gap-2 text-white font-medium drop-shadow-[0_0_8px_rgba(255,255,255,0.7)] transition-all hover:drop-shadow-[0_0_12px_rgba(255,255,255,1)] hover:scale-105"
         >
           <Mail className="h-5 w-5" aria-hidden="true" />
