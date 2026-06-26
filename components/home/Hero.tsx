@@ -8,9 +8,9 @@ import { siteConfig } from '@/data/site-config';
 import { useTypewriter } from '@/lib/useTypewriter';
 import { CyberNetwork } from './CyberNetwork';
 
-// Hocanın portre fotoğrafı: public/images/ahmet-ali-suzen.jpg dosyasını koyunca
+// Hocanın portre fotoğrafı:
 // otomatik gösterilir. Dosyayı koymadan önce null bırakırsan "AAS" monogramı görünür.
-const portreUrl: string | null = '/images/ahmet-ali-suzen.jpg';
+const portreUrl: string | null = '/images/press/aas.jpeg';
 
 const container = {
   hidden: {},
