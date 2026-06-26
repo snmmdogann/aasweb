@@ -2,6 +2,7 @@ import { NextResponse, type NextRequest } from 'next/server';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { siteContentUpdateSchema } from '@/lib/admin-validation';
+import { revalidatePath } from 'next/cache';
 
 export const runtime = 'nodejs';
 
@@ -43,6 +44,9 @@ export async function PUT(request: NextRequest) {
       update: { value },
       create: { id, value },
     });
+
+    // Ana sayfa ve hakkımda gibi sayfaların cache'ini temizle ki anında yansısın
+    revalidatePath('/', 'layout');
 
     return NextResponse.json(saved);
   } catch {
