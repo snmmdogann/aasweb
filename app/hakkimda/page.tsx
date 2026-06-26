@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { BioSection } from '@/components/about/BioSection';
 import { UzmanlikBadge } from '@/components/about/UzmanlikBadge';
 import { VerkosisBanner } from '@/components/about/VerkosisBanner';
+import { getSiteContent } from '@/lib/site-content';
 
 export const metadata: Metadata = {
   title: 'Hakkımda',
@@ -9,7 +10,12 @@ export const metadata: Metadata = {
     'Dr. Öğr. Üyesi Ahmet Ali Süzen — akademik geçmiş, uzmanlık alanları ve siber güvenlik çalışmaları.',
 };
 
-export default function HakkimdaPage() {
+// Biyografi ve uzmanlık alanları admin panelinden yönetilir; her istekte güncel oku.
+export const dynamic = 'force-dynamic';
+
+export default async function HakkimdaPage() {
+  const { bioParagraphs, expertiseAreas } = await getSiteContent();
+
   return (
     <main>
       <section className="mx-auto w-full max-w-6xl px-6 pt-28 pb-16">
@@ -19,13 +25,13 @@ export default function HakkimdaPage() {
           </h1>
         </header>
 
-        <BioSection />
+        <BioSection paragraphs={bioParagraphs} />
 
         <div className="mx-auto mt-14 max-w-3xl">
           <h2 className="mb-6 text-2xl font-semibold text-white">
             Uzmanlık Alanları
           </h2>
-          <UzmanlikBadge />
+          <UzmanlikBadge areas={expertiseAreas} />
         </div>
       </section>
 
