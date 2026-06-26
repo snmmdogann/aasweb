@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { stats } from '@/data/stats';
+import type { Stat } from '@/data/stats';
 import { StatCard } from './StatCard';
 
 const container = {
@@ -13,7 +13,7 @@ const container = {
  * İstatistikler bölümü. Arka planda çok silik, dekoratif bir Türkiye silüeti;
  * önünde stats.ts'ten beslenen, scroll'a girince stagger ile beliren kartlar.
  */
-export function StatsSection() {
+export function StatsSection({ stats }: { stats: Stat[] }) {
   return (
     <section className="relative overflow-hidden bg-ice/10 py-20">
       {/* Dekoratif arka plan silüeti (çok silik). Yavaşça nefes alma animasyonu var */}

@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { bioParagraphs } from '@/data/about';
 
 const container = {
   hidden: {},
@@ -17,7 +16,7 @@ const item = {
  * Hakkımda sayfasının biyografi bölümü: temiz tipografi ile data/about.ts'ten
  * gelen paragraflar. Sayfa açılışında stagger fade-in-up.
  */
-export function BioSection() {
+export function BioSection({ paragraphs }: { paragraphs: string[] }) {
   return (
     <motion.div
       className="mx-auto max-w-3xl space-y-5"
@@ -25,7 +24,7 @@ export function BioSection() {
       initial="hidden"
       animate="show"
     >
-      {bioParagraphs.map((paragraph, index) => (
+      {paragraphs.map((paragraph, index) => (
         <motion.p
           key={index}
           variants={item}
