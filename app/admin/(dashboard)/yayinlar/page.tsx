@@ -175,13 +175,13 @@ export default function YayinlarPage() {
             className="w-full rounded-lg border border-white/10 bg-white/5 py-2.5 pl-10 pr-4 text-sm text-white placeholder-white/30 outline-none focus:border-primary-light focus:bg-white/10"
           />
         </div>
-        <div className="flex gap-1.5 rounded-lg border border-white/10 bg-white/5 p-1">
+        <div className="flex w-full gap-1.5 rounded-lg border border-white/10 bg-white/5 p-1 sm:w-auto">
           {filters.map((f) => (
             <button
               key={f.value}
               onClick={() => setActiveFilter(f.value)}
               className={cn(
-                'rounded-md px-3 py-1.5 text-sm font-medium transition-colors',
+                'flex-1 rounded-md px-3 py-1.5 text-sm font-medium transition-colors sm:flex-none',
                 activeFilter === f.value
                   ? 'bg-white/15 text-white'
                   : 'text-white/50 hover:text-white',
@@ -193,7 +193,7 @@ export default function YayinlarPage() {
         </div>
       </div>
 
-      {/* Tablo */}
+      {/* Liste / Tablo */}
       <div className="overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03]">
         {loading ? (
           <div className="flex items-center justify-center gap-2 p-12 text-white/50">
@@ -204,78 +204,131 @@ export default function YayinlarPage() {
             Kayıt bulunamadı.
           </p>
         ) : (
-          <div className="overflow-x-auto">
-            <table className="w-full text-left text-sm">
-              <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-white/40">
-                <tr>
-                  <th className="px-4 py-3 font-medium">Başlık</th>
-                  <th className="px-4 py-3 font-medium">Yazarlar</th>
-                  <th className="px-4 py-3 font-medium">Yıl</th>
-                  <th className="px-4 py-3 font-medium">Tür</th>
-                  <th className="px-4 py-3 font-medium">DOI</th>
-                  <th className="px-4 py-3 text-right font-medium">İşlemler</th>
-                </tr>
-              </thead>
-              <tbody>
-                {pageItems.map((p) => (
-                  <tr
-                    key={p.id}
-                    className="border-b border-white/5 transition-colors last:border-0 hover:bg-white/[0.02]"
-                  >
-                    <td className="max-w-[260px] px-4 py-3">
-                      <span className="line-clamp-2 text-white/85">
-                        {p.baslik}
-                      </span>
-                    </td>
-                    <td className="max-w-[160px] truncate px-4 py-3 text-white/55">
-                      {p.yazarlar}
-                    </td>
-                    <td className="px-4 py-3 text-white/60">{p.yil}</td>
-                    <td className="px-4 py-3">
+          <>
+            {/* Mobil kart listesi */}
+            <div className="divide-y divide-white/5 sm:hidden">
+              {pageItems.map((p) => (
+                <div key={p.id} className="flex items-start gap-3 p-4">
+                  <div className="min-w-0 flex-1">
+                    <div className="flex flex-wrap items-center gap-2">
                       <span
-                        className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[p.tur]}`}
+                        className={`rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[p.tur]}`}
                       >
                         {PUBLICATION_TUR_LABELS[p.tur]}
                       </span>
-                    </td>
-                    <td className="px-4 py-3">
-                      {p.doiUrl ? (
-                        <a
-                          href={p.doiUrl}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                          className="inline-flex items-center gap-1 text-emerald-400 hover:underline"
-                        >
-                          <Check className="h-4 w-4" />
-                          <ExternalLink className="h-3 w-3" />
-                        </a>
-                      ) : (
-                        <Minus className="h-4 w-4 text-white/25" />
-                      )}
-                    </td>
-                    <td className="px-4 py-3">
-                      <div className="flex items-center justify-end gap-1">
-                        <button
-                          onClick={() => openEdit(p)}
-                          aria-label="Düzenle"
-                          className="rounded-lg p-2 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
-                        >
-                          <Pencil className="h-4 w-4" />
-                        </button>
-                        <button
-                          onClick={() => setDeleteTarget(p)}
-                          aria-label="Sil"
-                          className="rounded-lg p-2 text-red-300/70 transition-colors hover:bg-red-500/10 hover:text-red-300"
-                        >
-                          <Trash2 className="h-4 w-4" />
-                        </button>
-                      </div>
-                    </td>
+                      <span className="text-xs text-white/50">{p.yil}</span>
+                    </div>
+                    <p className="mt-1.5 line-clamp-2 text-sm font-medium text-white/85">
+                      {p.baslik}
+                    </p>
+                    <p className="mt-0.5 truncate text-xs text-white/45">
+                      {p.yazarlar}
+                    </p>
+                    {p.doiUrl && (
+                      <a
+                        href={p.doiUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="mt-1.5 inline-flex items-center gap-1 text-xs text-emerald-400 hover:underline"
+                      >
+                        <ExternalLink className="h-3 w-3" /> DOI
+                      </a>
+                    )}
+                  </div>
+                  <div className="flex shrink-0 items-center gap-0.5">
+                    <button
+                      onClick={() => openEdit(p)}
+                      aria-label="Düzenle"
+                      className="rounded-lg p-2 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                    >
+                      <Pencil className="h-4 w-4" />
+                    </button>
+                    <button
+                      onClick={() => setDeleteTarget(p)}
+                      aria-label="Sil"
+                      className="rounded-lg p-2 text-red-300/70 transition-colors hover:bg-red-500/10 hover:text-red-300"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  </div>
+                </div>
+              ))}
+            </div>
+
+            {/* Masaüstü tablo */}
+            <div className="hidden overflow-x-auto sm:block">
+              <table className="w-full text-left text-sm">
+                <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-white/40">
+                  <tr>
+                    <th className="px-4 py-3 font-medium">Başlık</th>
+                    <th className="px-4 py-3 font-medium">Yazarlar</th>
+                    <th className="px-4 py-3 font-medium">Yıl</th>
+                    <th className="px-4 py-3 font-medium">Tür</th>
+                    <th className="px-4 py-3 font-medium">DOI</th>
+                    <th className="px-4 py-3 text-right font-medium">İşlemler</th>
                   </tr>
-                ))}
-              </tbody>
-            </table>
-          </div>
+                </thead>
+                <tbody>
+                  {pageItems.map((p) => (
+                    <tr
+                      key={p.id}
+                      className="border-b border-white/5 transition-colors last:border-0 hover:bg-white/[0.02]"
+                    >
+                      <td className="max-w-[260px] px-4 py-3">
+                        <span className="line-clamp-2 text-white/85">
+                          {p.baslik}
+                        </span>
+                      </td>
+                      <td className="max-w-[160px] truncate px-4 py-3 text-white/55">
+                        {p.yazarlar}
+                      </td>
+                      <td className="px-4 py-3 text-white/60">{p.yil}</td>
+                      <td className="px-4 py-3">
+                        <span
+                          className={`whitespace-nowrap rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[p.tur]}`}
+                        >
+                          {PUBLICATION_TUR_LABELS[p.tur]}
+                        </span>
+                      </td>
+                      <td className="px-4 py-3">
+                        {p.doiUrl ? (
+                          <a
+                            href={p.doiUrl}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-emerald-400 hover:underline"
+                          >
+                            <Check className="h-4 w-4" />
+                            <ExternalLink className="h-3 w-3" />
+                          </a>
+                        ) : (
+                          <Minus className="h-4 w-4 text-white/25" />
+                        )}
+                      </td>
+                      <td className="px-4 py-3">
+                        <div className="flex items-center justify-end gap-1">
+                          <button
+                            onClick={() => openEdit(p)}
+                            aria-label="Düzenle"
+                            className="rounded-lg p-2 text-white/50 transition-colors hover:bg-white/10 hover:text-white"
+                          >
+                            <Pencil className="h-4 w-4" />
+                          </button>
+                          <button
+                            onClick={() => setDeleteTarget(p)}
+                            aria-label="Sil"
+                            className="rounded-lg p-2 text-red-300/70 transition-colors hover:bg-red-500/10 hover:text-red-300"
+                          >
+                            <Trash2 className="h-4 w-4" />
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </>
         )}
       </div>
 
