@@ -94,7 +94,7 @@ export default async function AdminDashboardPage() {
         {/* Son yayınlar */}
         <section className="lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">Son Yayınlar</h2>
+            <h2 className="text-lg font-semibold text-white">Yayınlarım</h2>
             <Link
               href="/admin/yayinlar"
               className="text-sm text-primary-light hover:underline"
@@ -126,9 +126,8 @@ export default async function AdminDashboardPage() {
                       <td className="px-4 py-3 text-white/60">{y.yil}</td>
                       <td className="px-4 py-3">
                         <span
-                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                            turBadge[y.tur] ?? 'bg-white/10 text-white/70'
-                          }`}
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[y.tur] ?? 'bg-white/10 text-white/70'
+                            }`}
                         >
                           {PUBLICATION_TUR_LABELS[
                             y.tur as keyof typeof PUBLICATION_TUR_LABELS
