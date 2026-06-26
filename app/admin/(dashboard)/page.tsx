@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { BookOpen, FileText, Newspaper, GraduationCap } from 'lucide-react';
 import { prisma } from '@/lib/prisma';
 import { PUBLICATION_TUR_LABELS } from '@/lib/admin-types';
+import { AccountSettings } from '@/components/admin/AccountSettings';
 
 export const dynamic = 'force-dynamic';
 
@@ -193,6 +194,9 @@ export default async function AdminDashboardPage() {
           </div>
         </section>
       </div>
+
+      {/* Yönetici giriş bilgilerini güncelleme */}
+      <AccountSettings />
     </div>
   );
 }
