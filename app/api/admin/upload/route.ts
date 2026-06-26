@@ -1,20 +1,18 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { mkdir, writeFile } from 'fs/promises';
-import path from 'path';
+import { put } from '@vercel/blob';
 import { randomUUID } from 'crypto';
 import { requireAuth } from '@/lib/auth';
-import { UPLOAD_DIR, UPLOAD_URL_PREFIX } from '@/lib/uploads';
 
 export const runtime = 'nodejs';
 
-const MAX_SIZE = 10 * 1024 * 1024; // 10MB
+const MAX_SIZE = 10 * 1024 * 1024; // 10 MB
 const ALLOWED: Record<string, string> = {
   'image/jpeg': 'jpg',
   'image/png': 'png',
   'image/webp': 'webp',
 };
 
-/** POST: FormData ile resim alır, public/uploads/press/ altına kaydeder, URL döndürür. */
+/** POST: FormData ile resim alır, Vercel Blob'a yükler, public URL döndürür. */
 export async function POST(request: NextRequest) {
   if (!(await requireAuth())) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
@@ -43,13 +41,10 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const bytes = Buffer.from(await file.arrayBuffer());
-    const filename = `${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
+    const filename = `press/${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
+    const blob = await put(filename, file, { access: 'public' });
 
-    await mkdir(UPLOAD_DIR, { recursive: true });
-    await writeFile(path.join(UPLOAD_DIR, filename), bytes);
-
-    return NextResponse.json({ url: `${UPLOAD_URL_PREFIX}${filename}` });
+    return NextResponse.json({ url: blob.url });
   } catch {
     return NextResponse.json({ error: 'Yükleme başarısız' }, { status: 500 });
   }
