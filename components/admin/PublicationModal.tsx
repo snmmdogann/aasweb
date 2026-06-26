@@ -100,7 +100,7 @@ export function PublicationModal({
             exit={{ opacity: 0, scale: 0.96, y: 16 }}
             transition={{ duration: 0.2 }}
             onClick={(e) => e.stopPropagation()}
-            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/10 bg-[#0f1730] p-6 shadow-2xl"
+            className="max-h-[90vh] w-full max-w-lg overflow-y-auto rounded-2xl border border-white/10 bg-[#0f1730] p-4 shadow-2xl sm:p-6"
           >
             <div className="mb-5 flex items-center justify-between">
               <h3 className="text-lg font-semibold text-white">
@@ -180,27 +180,25 @@ export function PublicationModal({
                 )}
               </div>
 
-              <div className="grid grid-cols-2 gap-4">
-                {/* Yıl */}
-                <div>
-                  <label className="mb-1.5 block text-sm font-medium text-white/70">
-                    Yıl
-                  </label>
-                  <input
-                    type="number"
-                    value={form.yil}
-                    onChange={(e) =>
-                      setForm((f) => ({
-                        ...f,
-                        yil: Number(e.target.value),
-                      }))
-                    }
-                    className={inputClass}
-                  />
-                  {errors.yil && (
-                    <p className="mt-1 text-xs text-red-400">{errors.yil}</p>
-                  )}
-                </div>
+              {/* Yıl */}
+              <div>
+                <label className="mb-1.5 block text-sm font-medium text-white/70">
+                  Yıl
+                </label>
+                <input
+                  type="number"
+                  value={form.yil}
+                  onChange={(e) =>
+                    setForm((f) => ({
+                      ...f,
+                      yil: Number(e.target.value),
+                    }))
+                  }
+                  className={`${inputClass} sm:max-w-[160px]`}
+                />
+                {errors.yil && (
+                  <p className="mt-1 text-xs text-red-400">{errors.yil}</p>
+                )}
               </div>
 
               {/* Türe özel kaynak alanı */}
@@ -239,12 +237,12 @@ export function PublicationModal({
               </div>
             </div>
 
-            <div className="mt-6 flex justify-end gap-3">
+            <div className="mt-6 flex flex-col-reverse gap-3 sm:flex-row sm:justify-end">
               <button
                 type="button"
                 onClick={onClose}
                 disabled={saving}
-                className="rounded-lg border border-white/10 px-4 py-2 text-sm font-medium text-white/80 transition-colors hover:bg-white/5 disabled:opacity-50"
+                className="rounded-lg border border-white/10 px-4 py-2.5 text-sm font-medium text-white/80 transition-colors hover:bg-white/5 disabled:opacity-50 sm:py-2"
               >
                 İptal
               </button>
@@ -252,7 +250,7 @@ export function PublicationModal({
                 type="button"
                 onClick={handleSubmit}
                 disabled={saving}
-                className="inline-flex items-center gap-2 rounded-lg bg-gradient-to-r from-primary to-ice px-5 py-2 text-sm font-semibold text-white transition-all hover:brightness-110 disabled:opacity-60"
+                className="inline-flex items-center justify-center gap-2 rounded-lg bg-gradient-to-r from-primary to-ice px-5 py-2.5 text-sm font-semibold text-white transition-all hover:brightness-110 disabled:opacity-60 sm:py-2"
               >
                 {saving && <Loader2 className="h-4 w-4 animate-spin" />}
                 Kaydet
