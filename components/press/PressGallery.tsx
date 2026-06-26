@@ -8,6 +8,7 @@ export interface PublicPressItem {
   id: string;
   tur: 'medya' | 'haber';
   baslik: string | null;
+  aciklama: string | null;
   imageUrl: string;
   haberUrl: string | null;
 }
@@ -17,49 +18,40 @@ const container = {
   show: { transition: { staggerChildren: 0.06 } },
 };
 
-const item = {
+const cardAnim = {
   hidden: { opacity: 0, y: 24 },
   show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: 'easeOut' } },
 };
 
-/**
- * Basın içeriklerinin masonry (CSS columns) galerisi. İki tür öğe destekler:
- *  - "medya": tıklanınca tam ekran lightbox açan görsel (ok tuşları / ESC ile gezinme).
- *  - "haber": kapak görseli + "HABER" rozeti olan, tıklanınca haberUrl'i yeni
- *    sekmede açan ayırt edici kart.
- */
 export function PressGallery({ items }: { items: PublicPressItem[] }) {
-  // Lightbox yalnızca medya görsellerinde gezinir.
-  const mediaItems = useMemo(
-    () => items.filter((i) => i.tur === 'medya'),
-    [items],
+  const mediaItems = useMemo(() => items.filter((i) => i.tur === 'medya'), [items]);
+
+  // Aktif öğe: hem medya hem haber için aynı panel
+  const [activeItem, setActiveItem] = useState<PublicPressItem | null>(null);
+
+  const activeMediaIndex = useMemo(
+    () => (activeItem?.tur === 'medya' ? mediaItems.findIndex((m) => m.id === activeItem.id) : -1),
+    [activeItem, mediaItems],
   );
 
-  const [activeMediaIndex, setActiveMediaIndex] = useState<number | null>(null);
-  const isOpen = activeMediaIndex !== null;
+  const close = useCallback(() => setActiveItem(null), []);
 
-  const close = useCallback(() => setActiveMediaIndex(null), []);
-  const next = useCallback(
-    () =>
-      setActiveMediaIndex((i) =>
-        i === null ? i : (i + 1) % mediaItems.length,
-      ),
-    [mediaItems.length],
-  );
-  const prev = useCallback(
-    () =>
-      setActiveMediaIndex((i) =>
-        i === null ? i : (i - 1 + mediaItems.length) % mediaItems.length,
-      ),
-    [mediaItems.length],
-  );
+  const next = useCallback(() => {
+    if (activeMediaIndex < 0) return;
+    setActiveItem(mediaItems[(activeMediaIndex + 1) % mediaItems.length]);
+  }, [activeMediaIndex, mediaItems]);
+
+  const prev = useCallback(() => {
+    if (activeMediaIndex < 0) return;
+    setActiveItem(mediaItems[(activeMediaIndex - 1 + mediaItems.length) % mediaItems.length]);
+  }, [activeMediaIndex, mediaItems]);
 
   useEffect(() => {
-    if (!isOpen) return;
+    if (!activeItem) return;
     const onKey = (e: KeyboardEvent) => {
       if (e.key === 'Escape') close();
-      else if (e.key === 'ArrowRight') next();
-      else if (e.key === 'ArrowLeft') prev();
+      else if (e.key === 'ArrowRight' && activeItem.tur === 'medya') next();
+      else if (e.key === 'ArrowLeft' && activeItem.tur === 'medya') prev();
     };
     window.addEventListener('keydown', onKey);
     document.body.style.overflow = 'hidden';
@@ -67,7 +59,7 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
       window.removeEventListener('keydown', onKey);
       document.body.style.overflow = '';
     };
-  }, [isOpen, close, next, prev]);
+  }, [activeItem, close, next, prev]);
 
   if (items.length === 0) {
     return (
@@ -89,13 +81,12 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
         {items.map((it) => {
           if (it.tur === 'haber') {
             return (
-              <motion.a
+              <motion.button
                 key={it.id}
-                href={it.haberUrl ?? '#'}
-                target="_blank"
-                rel="noopener noreferrer"
-                variants={item}
-                className="group relative block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+                type="button"
+                variants={cardAnim}
+                onClick={() => setActiveItem(it)}
+                className="group relative block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 text-left shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
               >
                 <span className="absolute left-3 top-3 z-10 rounded-full bg-red-500 px-2.5 py-1 text-xs font-bold uppercase tracking-wide text-white shadow-lg">
                   Haber
@@ -113,12 +104,6 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
                     <ExternalLink className="h-8 w-8" />
                   </div>
                 )}
-                {/* Hover overlay + başlık */}
-                <div className="absolute inset-0 flex flex-col justify-end bg-gradient-to-t from-black/80 via-black/20 to-transparent p-4 opacity-0 transition-opacity duration-300 group-hover:opacity-100">
-                  <span className="inline-flex items-center gap-1.5 self-start rounded-full bg-white/15 px-3 py-1 text-xs font-semibold text-white backdrop-blur-sm">
-                    Habere Git <ExternalLink className="h-3.5 w-3.5" />
-                  </span>
-                </div>
                 {it.baslik && (
                   <div className="p-4">
                     <p className="line-clamp-2 text-sm font-medium text-white/90">
@@ -126,18 +111,17 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
                     </p>
                   </div>
                 )}
-              </motion.a>
+              </motion.button>
             );
           }
 
-          // Medya öğesi → lightbox açar.
-          const mediaIndex = mediaItems.findIndex((m) => m.id === it.id);
+          // Medya öğesi → lightbox açar
           return (
             <motion.button
               key={it.id}
               type="button"
-              variants={item}
-              onClick={() => setActiveMediaIndex(mediaIndex)}
+              variants={cardAnim}
+              onClick={() => setActiveItem(it)}
               className="group block w-full break-inside-avoid overflow-hidden rounded-2xl border border-white/10 bg-white/5 shadow-sm transition-all duration-300 hover:-translate-y-1 hover:shadow-[0_20px_40px_-15px_rgba(24,47,87,0.45)] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
             >
               {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -147,14 +131,19 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
                 loading="lazy"
                 className="w-full transition-transform duration-500 group-hover:scale-[1.03]"
               />
+              {it.baslik && (
+                <div className="border-t border-white/5 px-4 py-2.5 text-left">
+                  <p className="line-clamp-1 text-sm text-white/70">{it.baslik}</p>
+                </div>
+              )}
             </motion.button>
           );
         })}
       </motion.div>
 
-      {/* Lightbox (yalnızca medya) */}
+      {/* Birleşik lightbox — medya ve haber için */}
       <AnimatePresence>
-        {isOpen && activeMediaIndex !== null && mediaItems[activeMediaIndex] && (
+        {activeItem && (
           <motion.div
             className="fixed inset-0 z-[100] flex items-center justify-center bg-black/90 p-4 backdrop-blur-sm"
             initial={{ opacity: 0 }}
@@ -162,53 +151,83 @@ export function PressGallery({ items }: { items: PublicPressItem[] }) {
             exit={{ opacity: 0 }}
             onClick={close}
           >
+            {/* Kapat */}
             <button
               type="button"
               onClick={close}
               aria-label="Kapat"
-              className="absolute right-4 top-4 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
+              className="absolute right-4 top-4 z-10 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary"
             >
               <X className="h-6 w-6" />
             </button>
 
-            {mediaItems.length > 1 && (
+            {/* Medya gezinme okları */}
+            {activeItem.tur === 'medya' && mediaItems.length > 1 && (
               <>
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    prev();
-                  }}
+                  onClick={(e) => { e.stopPropagation(); prev(); }}
                   aria-label="Önceki"
-                  className="absolute left-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:left-6"
+                  className="absolute left-2 z-10 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:left-6"
                 >
                   <ChevronLeft className="h-7 w-7" />
                 </button>
-
                 <button
                   type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    next();
-                  }}
+                  onClick={(e) => { e.stopPropagation(); next(); }}
                   aria-label="Sonraki"
-                  className="absolute right-2 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:right-6"
+                  className="absolute right-2 z-10 rounded-full bg-white/10 p-2 text-white transition-colors hover:bg-white/20 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary sm:right-6"
                 >
                   <ChevronRight className="h-7 w-7" />
                 </button>
               </>
             )}
 
-            <motion.img
-              key={activeMediaIndex}
-              src={mediaItems[activeMediaIndex].imageUrl}
-              alt={mediaItems[activeMediaIndex].baslik ?? 'Basın görseli'}
+            {/* İçerik: görsel + başlık + açıklama */}
+            <div
+              className="flex max-h-[90vh] w-full max-w-3xl flex-col items-center overflow-y-auto"
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.96 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.25, ease: 'easeOut' }}
-              className="max-h-[88vh] max-w-[92vw] rounded-lg object-contain shadow-2xl"
-            />
+            >
+              <motion.img
+                key={activeItem.id}
+                src={activeItem.imageUrl}
+                alt={activeItem.baslik ?? 'Basın görseli'}
+                initial={{ opacity: 0, scale: 0.96 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ duration: 0.25, ease: 'easeOut' }}
+                className="max-h-[65vh] w-auto max-w-full rounded-lg object-contain shadow-2xl"
+              />
+
+              {(activeItem.baslik || activeItem.aciklama || (activeItem.tur === 'haber' && activeItem.haberUrl)) && (
+                <div className="mt-5 w-full max-w-xl rounded-2xl border border-white/10 bg-white/[0.05] px-6 py-5 text-center backdrop-blur-sm">
+                  {activeItem.tur === 'haber' && (
+                    <span className="mb-3 inline-block rounded-full bg-red-500/20 px-3 py-0.5 text-xs font-bold uppercase tracking-wide text-red-400">
+                      Haber
+                    </span>
+                  )}
+                  {activeItem.baslik && (
+                    <p className="text-base font-semibold text-white">
+                      {activeItem.baslik}
+                    </p>
+                  )}
+                  {activeItem.aciklama && (
+                    <p className="mt-2 text-sm leading-relaxed text-white/70">
+                      {activeItem.aciklama}
+                    </p>
+                  )}
+                  {activeItem.tur === 'haber' && activeItem.haberUrl && (
+                    <a
+                      href={activeItem.haberUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="mt-4 inline-flex items-center gap-2 rounded-full bg-white/10 px-5 py-2 text-sm font-medium text-white transition-colors hover:bg-white/20"
+                    >
+                      Habere Git <ExternalLink className="h-3.5 w-3.5" />
+                    </a>
+                  )}
+                </div>
+              )}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>
