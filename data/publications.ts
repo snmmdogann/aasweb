@@ -1,8 +1,4 @@
-// Akademik yayınlar — Akademi sayfasındaki PublicationList tarafından kullanılır.
-// Kaynak: İsparta Uygulamalı Bilimler Üniversitesi personel sayfası (YÖK Akademik).
-// https://www.isparta.edu.tr/personel/01667/doc-dr-ahmet-ali-suzen
-// Not: DOI/link bilgileri kaynakta toplu listelenmediğinden boş bırakıldı; doiUrl
-// eklendikçe ilgili kayıtta "DOI / İncele" butonu otomatik aktifleşir.
+
 
 export type PublicationType = 'makale' | 'kitap' | 'bildiri';
 
@@ -17,7 +13,7 @@ export interface Publication {
 }
 
 const rawPublications: Publication[] = [
-  // ——— Makaleler ———
+
   {
     id: 'm-1',
     baslik:

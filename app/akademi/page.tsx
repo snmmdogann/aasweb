@@ -2,7 +2,8 @@ import type { Metadata } from 'next';
 import { PublicationList } from '@/components/academy/PublicationList';
 import { ScholarLinks } from '@/components/academy/ScholarLinks';
 import { FloatingBooks } from '@/components/academy/FloatingBooks';
-import { publications } from '@/data/publications';
+import { prisma } from '@/lib/prisma';
+import type { Publication, PublicationType } from '@/data/publications';
 
 export const metadata: Metadata = {
   title: 'Akademi — Yayınlar ve Akademik Çalışmalar',
@@ -10,7 +11,25 @@ export const metadata: Metadata = {
     'Doç. Dr. Ahmet Ali Süzen — akademik yayınlar, makaleler, bildiriler ve araştırma çalışmaları.',
 };
 
-export default function AkademiPage() {
+// Her istekte güncel veriyi veritabanından getir.
+export const dynamic = 'force-dynamic';
+
+export default async function AkademiPage() {
+  const rows = await prisma.publication.findMany({
+    orderBy: { yil: 'desc' },
+  });
+
+  // DB satırlarını herkese açık bileşenlerin beklediği Publication şekline dönüştür.
+  const publications: Publication[] = rows.map((row) => ({
+    id: row.id,
+    baslik: row.baslik,
+    yazarlar: row.yazarlar,
+    dergiVeyaKonferans: row.dergiVeyaKonferans,
+    yil: row.yil,
+    tur: row.tur as PublicationType,
+    doiUrl: row.doiUrl ?? undefined,
+  }));
+
   return (
     <>
       {/* Arka planda süzülen kitap silüetleri */}
@@ -37,10 +56,9 @@ export default function AkademiPage() {
           <h2 className="mb-8 text-center text-2xl font-semibold text-white/90">
             Yayın Kütüphanesi
           </h2>
-          <PublicationList />
+          <PublicationList publications={publications} />
         </section>
       </main>
     </>
   );
 }
-

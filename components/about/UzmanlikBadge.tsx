@@ -1,7 +1,6 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { expertiseAreas } from '@/data/about';
 
 const container = {
   hidden: {},
@@ -17,7 +16,7 @@ const item = {
  * Uzmanlık alanları — pill (rozet) biçiminde, flex-wrap dizilim.
  * Sayfaya girerken stagger ile belirir; hover'da primary dolguya yumuşak geçiş.
  */
-export function UzmanlikBadge() {
+export function UzmanlikBadge({ areas }: { areas: string[] }) {
   return (
     <motion.div
       className="mx-auto flex max-w-3xl flex-wrap gap-3"
@@ -26,7 +25,7 @@ export function UzmanlikBadge() {
       whileInView="show"
       viewport={{ once: true, amount: 0.3 }}
     >
-      {expertiseAreas.map((area) => (
+      {areas.map((area) => (
         <motion.span
           key={area}
           variants={item}

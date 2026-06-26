@@ -1,6 +1,10 @@
 import type { Metadata } from 'next';
 import { PressMarquee } from '@/components/press/PressMarquee';
-import { PressGallery } from '@/components/press/PressGallery';
+import {
+  PressGallery,
+  type PublicPressItem,
+} from '@/components/press/PressGallery';
+import { prisma } from '@/lib/prisma';
 
 export const metadata: Metadata = {
   title: 'Basın ve Medya',
@@ -8,7 +12,27 @@ export const metadata: Metadata = {
     'Doç. Dr. Ahmet Ali Süzen — basında ve medyada yer aldığı haber ve programlardan görseller.',
 };
 
-export default function BasindaBizPage() {
+// Her istekte güncel veriyi veritabanından getir.
+export const dynamic = 'force-dynamic';
+
+export default async function BasindaBizPage() {
+  const rows = await prisma.pressItem.findMany({
+    orderBy: { siraNo: 'asc' },
+  });
+
+  const items: PublicPressItem[] = rows.map((row) => ({
+    id: row.id,
+    tur: row.tur as 'medya' | 'haber',
+    baslik: row.baslik,
+    imageUrl: row.imageUrl,
+    haberUrl: row.haberUrl,
+  }));
+
+  // Marquee yalnızca medya görsellerini gösterir.
+  const marqueeImages = items
+    .filter((i) => i.tur === 'medya' && i.imageUrl)
+    .map((i) => ({ id: i.id, src: i.imageUrl }));
+
   return (
     <main className="mx-auto w-full max-w-6xl px-6 pt-28 pb-20">
       <header className="mb-10">
@@ -21,11 +45,13 @@ export default function BasindaBizPage() {
         </p>
       </header>
 
-      <div className="mb-14">
-        <PressMarquee />
-      </div>
+      {marqueeImages.length > 0 && (
+        <div className="mb-14">
+          <PressMarquee images={marqueeImages} />
+        </div>
+      )}
 
-      <PressGallery />
+      <PressGallery items={items} />
     </main>
   );
 }

@@ -4,6 +4,7 @@ import { ContactInfo } from '@/components/contact/ContactInfo';
 import { ContactBackground } from '@/components/contact/ContactBackground';
 import { egitimAdiToBaslik } from '@/data/trainings';
 import type { ContactFormValues } from '@/lib/validations';
+import { getSiteContent } from '@/lib/site-content';
 
 export const metadata: Metadata = {
   title: 'İletişim',
@@ -11,11 +12,16 @@ export const metadata: Metadata = {
     'Dr. Öğr. Üyesi Ahmet Ali Süzen ile iletişime geçin — kurumsal eğitim, seminer daveti ve danışmanlık talepleri.',
 };
 
-export default function IletisimPage({
+// E-posta adresi admin panelinden yönetilir; her istekte güncel oku.
+export const dynamic = 'force-dynamic';
+
+export default async function IletisimPage({
   searchParams,
 }: {
   searchParams: { konu?: string; egitimAdi?: string };
 }) {
+  const { contactEmail } = await getSiteContent();
+
   // Eğitim grid'inden gelindiyse konuyu ve mesajı ön-doldur (FAZ 2 mekanizması).
   let defaultValues: Partial<ContactFormValues> | undefined;
   if (searchParams.konu === 'egitim') {
@@ -42,7 +48,7 @@ export default function IletisimPage({
 
       <div className="grid gap-12 md:grid-cols-[1fr_minmax(220px,280px)]">
         <ContactForm defaultValues={defaultValues} />
-        <ContactInfo />
+        <ContactInfo email={contactEmail} />
       </div>
     </main>
     </>
