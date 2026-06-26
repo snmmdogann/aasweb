@@ -68,7 +68,7 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
   // Çeyrek daire boyutu (px cinsinden)
   const SIZE = 420;
   // Yay yarıçapı — öğeler bu yarıçaptaki yay üzerine yerleşir
-  const RADIUS = SIZE * 0.58;
+  const RADIUS = SIZE * 0.55;
   // Öğelerin yay üzerindeki açı aralığı (derece). 
   // Koordinat sistemi: sol-üst köşe merkez, 0° = aşağı, 90° = sağ.
   // İlk öğe (Anasayfa) sağ-üst tarafta (büyük açı), son öğe (İletişim) sol-alt tarafta (küçük açı).
@@ -154,30 +154,32 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
               {navLinks.map((link, index) => {
                 const active = pathname === link.href;
 
-                // Her öğenin nokta pozisyonu — köşegen boyunca eşit görsel mesafe.
-                // Sol-üst köşe (0,0) merkez; sağa ve aşağıya gider.
-                // Eşit Euclidean mesafe (~60px) sağlamak için elle ayarlanmış.
-                const positions = [
-                  { x: 225, y: 63 },   // Anasayfa   — sağ-üst
-                  { x: 193, y: 120 },   // Hakkımda
-                  { x: 155, y: 172 },   // Akademi    — ortada (köşegen)
-                  { x: 112, y: 220 },   // Basın ve Medya
-                  { x: 63, y: 262 },    // İletişim   — sol-alt
-                ];
-                const { x, y } = positions[index];
+                // Kullanıcının tam isteği:
+                // 1. Basın ve Medya, İletişim'e doğru BİRAZ daha yaklaştırıldı (y=195'ten y=200'e çekildi).
+                // 2. İletişim dip noktada (y=228) sabit bırakıldı.
+                // 3. Aralarındaki boşluk tam kararında (28px) ayarlandı.
+                const customY = [65, 115, 160, 200, 228];
+                const cy = customY[index] || 0;
+
+                // Çember denklemi: x^2 + y^2 = R^2 => x = sqrt(R^2 - y^2)
+                const R = RADIUS - 0.5;
+                const cx = Math.sqrt(Math.max(0, R * R - cy * cy));
+
+                const dotWidth = active ? 8 : 5;
 
                 return (
                   <motion.li
                     key={link.href}
                     className="absolute flex items-center"
                     style={{
-                      left: x,
-                      top: y,
-                      transform: 'translateY(-50%)',
+                      // Sol kenarı, noktanın genişliğinin yarısı kadar geriye çekerek noktanın merkezini tam cx konumuna alıyoruz.
+                      left: cx - (dotWidth / 2),
+                      top: cy,
                     }}
-                    initial={{ opacity: 0, scale: 0.3, filter: 'blur(8px)' }}
-                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
-                    exit={{ opacity: 0, scale: 0.3, filter: 'blur(8px)' }}
+                    // Framer Motion, style içindeki transform'u ezdiği için translateY(-50%) işlemini 'y' prop'u ile yapmalıyız.
+                    initial={{ opacity: 0, scale: 0.3, filter: 'blur(8px)', y: '-50%' }}
+                    animate={{ opacity: 1, scale: 1, filter: 'blur(0px)', y: '-50%' }}
+                    exit={{ opacity: 0, scale: 0.3, filter: 'blur(8px)', y: '-50%' }}
                     transition={{
                       delay: 0.18 + index * 0.06,
                       duration: 0.45,
@@ -200,12 +202,12 @@ export function OffCanvasMenu({ isOpen, onClose }: OffCanvasMenuProps) {
                       animate={
                         active
                           ? {
-                              boxShadow: [
-                                '0 0 12px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.4)',
-                                '0 0 18px rgba(255,255,255,1), 0 0 36px rgba(255,255,255,0.6)',
-                                '0 0 12px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.4)',
-                              ],
-                            }
+                            boxShadow: [
+                              '0 0 12px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.4)',
+                              '0 0 18px rgba(255,255,255,1), 0 0 36px rgba(255,255,255,0.6)',
+                              '0 0 12px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.4)',
+                            ],
+                          }
                           : {}
                       }
                       transition={
