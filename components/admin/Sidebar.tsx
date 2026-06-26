@@ -52,7 +52,7 @@ export function Sidebar({ username }: { username: string }) {
       <div className="flex items-center gap-3 px-2 py-4">
         <div className="relative flex h-11 w-11 shrink-0 items-center justify-center overflow-hidden rounded-xl bg-gradient-to-br from-primary to-ice text-lg font-bold text-white shadow-lg">
           <Image
-            src="/images/ahmet-ali-suzen.jpg"
+            src="/images/press/aas.jpeg"
             alt="Dr. Ahmet Ali Süzen"
             fill
             sizes="44px"

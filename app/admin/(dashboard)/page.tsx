@@ -5,6 +5,8 @@ import { PUBLICATION_TUR_LABELS } from '@/lib/admin-types';
 
 export const dynamic = 'force-dynamic';
 
+type YayinOzet = { id: string; baslik: string; yil: number; tur: string };
+
 const turBadge: Record<string, string> = {
   makale: 'bg-sky-500/15 text-sky-300',
   bildiri: 'bg-violet-500/15 text-violet-300',
@@ -94,7 +96,7 @@ export default async function AdminDashboardPage() {
         {/* Son yayınlar */}
         <section className="lg:col-span-2">
           <div className="mb-3 flex items-center justify-between">
-            <h2 className="text-lg font-semibold text-white">Son Yayınlar</h2>
+            <h2 className="text-lg font-semibold text-white">Yayınlarım</h2>
             <Link
               href="/admin/yayinlar"
               className="text-sm text-primary-light hover:underline"
@@ -106,39 +108,53 @@ export default async function AdminDashboardPage() {
             {sonYayinlar.length === 0 ? (
               <p className="p-5 text-sm text-white/40">Henüz yayın yok.</p>
             ) : (
-              <table className="w-full text-left text-sm">
-                <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-white/40">
-                  <tr>
-                    <th className="px-4 py-3 font-medium">Başlık</th>
-                    <th className="px-4 py-3 font-medium">Yıl</th>
-                    <th className="px-4 py-3 font-medium">Tür</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {sonYayinlar.map((y) => (
-                    <tr
-                      key={y.id}
-                      className="border-b border-white/5 last:border-0"
-                    >
-                      <td className="max-w-xs truncate px-4 py-3 text-white/80">
-                        {y.baslik}
-                      </td>
-                      <td className="px-4 py-3 text-white/60">{y.yil}</td>
-                      <td className="px-4 py-3">
+              <>
+                {/* Mobil kart listesi */}
+                <div className="divide-y divide-white/5 sm:hidden">
+                  {sonYayinlar.map((y: YayinOzet) => (
+                    <div key={y.id} className="flex items-start justify-between gap-3 px-4 py-3">
+                      <p className="line-clamp-2 text-sm text-white/80">{y.baslik}</p>
+                      <div className="flex shrink-0 flex-col items-end gap-1">
                         <span
-                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${
-                            turBadge[y.tur] ?? 'bg-white/10 text-white/70'
-                          }`}
+                          className={`rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[y.tur] ?? 'bg-white/10 text-white/70'}`}
                         >
-                          {PUBLICATION_TUR_LABELS[
-                            y.tur as keyof typeof PUBLICATION_TUR_LABELS
-                          ] ?? y.tur}
+                          {PUBLICATION_TUR_LABELS[y.tur as keyof typeof PUBLICATION_TUR_LABELS] ?? y.tur}
                         </span>
-                      </td>
-                    </tr>
+                        <span className="text-xs text-white/50">{y.yil}</span>
+                      </div>
+                    </div>
                   ))}
-                </tbody>
-              </table>
+                </div>
+                {/* Masaüstü tablo */}
+                <div className="hidden overflow-x-auto sm:block">
+                  <table className="w-full text-left text-sm">
+                    <thead className="border-b border-white/10 text-xs uppercase tracking-wide text-white/40">
+                      <tr>
+                        <th className="px-4 py-3 font-medium">Başlık</th>
+                        <th className="px-4 py-3 font-medium">Yıl</th>
+                        <th className="px-4 py-3 font-medium">Tür</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      {sonYayinlar.map((y: YayinOzet) => (
+                        <tr key={y.id} className="border-b border-white/5 last:border-0">
+                          <td className="max-w-xs truncate px-4 py-3 text-white/80">
+                            {y.baslik}
+                          </td>
+                          <td className="px-4 py-3 text-white/60">{y.yil}</td>
+                          <td className="px-4 py-3">
+                            <span
+                              className={`rounded-full px-2 py-0.5 text-xs font-medium ${turBadge[y.tur] ?? 'bg-white/10 text-white/70'}`}
+                            >
+                              {PUBLICATION_TUR_LABELS[y.tur as keyof typeof PUBLICATION_TUR_LABELS] ?? y.tur}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </>
             )}
           </div>
         </section>
@@ -154,7 +170,7 @@ export default async function AdminDashboardPage() {
               Tümünü gör
             </Link>
           </div>
-          <div className="grid grid-cols-3 gap-3">
+          <div className="grid grid-cols-1 min-[400px]:grid-cols-3 gap-3">
             {sonBasin.length === 0 ? (
               <p className="col-span-3 rounded-2xl border border-white/10 bg-white/[0.03] p-5 text-sm text-white/40">
                 Henüz öğe yok.
