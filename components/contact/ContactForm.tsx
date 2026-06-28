@@ -100,6 +100,13 @@ export function ContactForm({
         return;
       }
 
+      if (/activat/i.test(json.message ?? '')) {
+        setServerError(
+          'Form ilk kez kullanılıyor. Alıcı e-posta adresine gönderilen "Activate Form" bağlantısına bir kez tıklayıp tekrar deneyin.',
+        );
+        return;
+      }
+
       setServerError(json.message ?? 'Mesaj gönderilemedi. Lütfen tekrar deneyin.');
     } catch {
       setServerError('Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.');
