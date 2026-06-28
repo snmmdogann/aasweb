@@ -21,6 +21,8 @@ export default async function IletisimPage({
   searchParams: { konu?: string; egitimAdi?: string };
 }) {
   const { contactEmail } = await getSiteContent();
+  const receiverEmail =
+    process.env.CONTACT_RECEIVER_EMAIL ?? 'asudeys2004@gmail.com';
 
   // Eğitim grid'inden gelindiyse konuyu ve mesajı ön-doldur (FAZ 2 mekanizması).
   let defaultValues: Partial<ContactFormValues> | undefined;
@@ -47,7 +49,7 @@ export default async function IletisimPage({
       </header>
 
       <div className="grid gap-12 md:grid-cols-[1fr_minmax(220px,280px)]">
-        <ContactForm defaultValues={defaultValues} />
+        <ContactForm defaultValues={defaultValues} receiverEmail={receiverEmail} />
         <ContactInfo email={contactEmail} />
       </div>
     </main>

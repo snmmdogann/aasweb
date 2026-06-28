@@ -50,8 +50,10 @@ function FieldError({ message }: { message?: string }) {
  */
 export function ContactForm({
   defaultValues,
+  receiverEmail,
 }: {
   defaultValues?: Partial<ContactFormValues>;
+  receiverEmail: string;
 }) {
   const {
     register,
@@ -70,22 +72,35 @@ export function ContactForm({
     setServerError(null);
     setSuccess(false);
     try {
-      const res = await fetch('/api/contact', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(values),
-      });
-      const json = (await res.json()) as { ok: boolean; message?: string };
+      const res = await fetch(
+        `https://formsubmit.co/ajax/${encodeURIComponent(receiverEmail)}`,
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+          body: JSON.stringify({
+            _subject: `[İletişim] ${values.konu} — ${values.ad}`,
+            _template: 'table',
+            _captcha: 'false',
+            _replyto: values.email,
+            'Ad Soyad': values.ad,
+            'E-posta': values.email,
+            Konu: values.konu,
+            Mesaj: values.mesaj,
+          }),
+        },
+      );
+      const json = (await res.json().catch(() => ({}))) as {
+        success?: string | boolean;
+        message?: string;
+      };
 
-      if (!res.ok || !json.ok) {
-        setServerError(
-          json.message ?? 'Mesaj gönderilemedi. Lütfen tekrar deneyin.',
-        );
+      if (json.success === 'true' || json.success === true) {
+        setSuccess(true);
+        reset(baseDefaults);
         return;
       }
 
-      setSuccess(true);
-      reset(baseDefaults);
+      setServerError(json.message ?? 'Mesaj gönderilemedi. Lütfen tekrar deneyin.');
     } catch {
       setServerError('Beklenmedik bir hata oluştu. Lütfen tekrar deneyin.');
     }
