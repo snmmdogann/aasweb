@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { pressItemSchema } from '@/lib/admin-validation';
@@ -52,6 +53,7 @@ export async function PUT(
       },
     });
 
+    revalidatePath('/basinda-biz');
     return NextResponse.json(updated);
   } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });
@@ -78,6 +80,7 @@ export async function DELETE(
     await prisma.pressItem.delete({ where: { id: params.id } });
     await deleteUploadIfLocal(existing.imageUrl);
 
+    revalidatePath('/basinda-biz');
     return NextResponse.json({ success: true });
   } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });

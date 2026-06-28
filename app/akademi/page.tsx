@@ -11,8 +11,9 @@ export const metadata: Metadata = {
     'Doç. Dr. Ahmet Ali Süzen — akademik yayınlar, makaleler, bildiriler ve araştırma çalışmaları.',
 };
 
-// Her istekte güncel veriyi veritabanından getir.
-export const dynamic = 'force-dynamic';
+// Sayfa önbelleğe alınır (hızlı gezinme); admin yayın ekleyince/düzenleyince
+// revalidatePath('/akademi') ile anında tazelenir.
+export const revalidate = 3600;
 
 export default async function AkademiPage() {
   const rows = await prisma.publication.findMany({

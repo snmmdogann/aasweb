@@ -10,8 +10,9 @@ export const metadata: Metadata = {
     'Dr. Öğr. Üyesi Ahmet Ali Süzen — akademik geçmiş, uzmanlık alanları ve siber güvenlik çalışmaları.',
 };
 
-// Biyografi ve uzmanlık alanları admin panelinden yönetilir; her istekte güncel oku.
-export const dynamic = 'force-dynamic';
+// Biyografi ve uzmanlık alanları admin panelinden yönetilir. Sayfa önbelleğe alınır
+// (hızlı gezinme); admin değişiklik yapınca revalidatePath('/hakkimda') ile tazelenir.
+export const revalidate = 3600;
 
 export default async function HakkimdaPage() {
   const { bioParagraphs, expertiseAreas } = await getSiteContent();

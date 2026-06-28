@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { publicationSchema } from '@/lib/admin-validation';
@@ -37,6 +38,7 @@ export async function PUT(
       },
     });
 
+    revalidatePath('/akademi');
     return NextResponse.json(updated);
   } catch (error) {
     if (
@@ -62,6 +64,7 @@ export async function DELETE(
 
   try {
     await prisma.publication.delete({ where: { id: params.id } });
+    revalidatePath('/akademi');
     return NextResponse.json({ success: true });
   } catch (error) {
     if (

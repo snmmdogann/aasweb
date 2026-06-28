@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { publicationSchema } from '@/lib/admin-validation';
@@ -67,6 +68,7 @@ export async function POST(request: NextRequest) {
       },
     });
 
+    revalidatePath('/akademi');
     return NextResponse.json(created, { status: 201 });
   } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });

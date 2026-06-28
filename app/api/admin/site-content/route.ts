@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from 'next/server';
+import { revalidatePath } from 'next/cache';
 import { prisma } from '@/lib/prisma';
 import { requireAuth } from '@/lib/auth';
 import { siteContentUpdateSchema } from '@/lib/admin-validation';
@@ -55,6 +56,10 @@ export async function PUT(request: NextRequest) {
       create: { id, value },
     });
 
+    // İçerik değişikliği ana sayfa (istatistik/eğitim) ve hakkımda (bio/uzmanlık)
+    // sayfalarını etkiler; önbelleklerini anında tazele.
+    revalidatePath('/');
+    revalidatePath('/hakkimda');
     return NextResponse.json(saved);
   } catch {
     return NextResponse.json({ error: 'Sunucu hatası' }, { status: 500 });

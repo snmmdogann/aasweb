@@ -22,18 +22,21 @@
   }
 }
 
-/* Basın logoları için sonsuz kayan şerit (PressLogosMarquee). */
+/* Basın görselleri için sonsuz kayan şerit (PressMarquee). */
+/* translate3d ile GPU katmanına alınır → mobilde daha akıcı, kasmadan döner. */
 @keyframes marquee {
   from {
-    transform: translateX(0);
+    transform: translate3d(0, 0, 0);
   }
   to {
-    transform: translateX(-50%);
+    transform: translate3d(-50%, 0, 0);
   }
 }
 
 .animate-marquee {
   animation: marquee 28s linear infinite;
+  will-change: transform;
+  backface-visibility: hidden;
 }
 
 /* ─── Akademi: Floating Books Background ─── */

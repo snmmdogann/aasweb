@@ -12,8 +12,9 @@ export const metadata: Metadata = {
     'Doç. Dr. Ahmet Ali Süzen — basında ve medyada yer aldığı haber ve programlardan görseller.',
 };
 
-// Her istekte güncel veriyi veritabanından getir.
-export const dynamic = 'force-dynamic';
+// Sayfa önbelleğe alınır (hızlı gezinme); admin basın öğesi ekleyince/düzenleyince
+// revalidatePath('/basinda-biz') ile anında tazelenir.
+export const revalidate = 3600;
 
 export default async function BasindaBizPage() {
   const rows = await prisma.pressItem.findMany({
