@@ -1,5 +1,4 @@
 import { NextResponse, type NextRequest } from 'next/server';
-import { put } from '@vercel/blob';
 import { randomUUID } from 'crypto';
 import { requireAuth } from '@/lib/auth';
 
@@ -12,7 +11,7 @@ const ALLOWED: Record<string, string> = {
   'image/webp': 'webp',
 };
 
-/** POST: FormData ile resim alır, Vercel Blob'a yükler, public URL döndürür. */
+/** POST: FormData ile resim alır. Production'da Vercel Blob'a, local'de disk'e yazar. */
 export async function POST(request: NextRequest) {
   if (!(await requireAuth())) {
     return NextResponse.json({ error: 'Yetkisiz' }, { status: 401 });
@@ -41,10 +40,22 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    const filename = `press/${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
-    const blob = await put(filename, file, { access: 'public' });
+    const filename = `${Date.now()}-${randomUUID().slice(0, 8)}.${ext}`;
 
-    return NextResponse.json({ url: blob.url });
+    if (process.env.BLOB_STORE_ID || process.env.BLOB_READ_WRITE_TOKEN) {
+      const { put } = await import('@vercel/blob');
+      const blob = await put(`press/${filename}`, file, { access: 'public' });
+      return NextResponse.json({ url: blob.url });
+    }
+
+    // Yerel geliştirme: public/uploads/press/ klasörüne kaydet
+    const { writeFile, mkdir } = await import('fs/promises');
+    const path = await import('path');
+    const uploadDir = path.join(process.cwd(), 'public', 'uploads', 'press');
+    await mkdir(uploadDir, { recursive: true });
+    const buffer = Buffer.from(await file.arrayBuffer());
+    await writeFile(path.join(uploadDir, filename), buffer);
+    return NextResponse.json({ url: `/uploads/press/${filename}` });
   } catch {
     return NextResponse.json({ error: 'Yükleme başarısız' }, { status: 500 });
   }
