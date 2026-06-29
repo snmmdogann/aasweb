@@ -6,74 +6,35 @@ import { EgitimKart } from './EgitimKart';
 
 const container = {
   hidden: {},
-  show: { transition: { staggerChildren: 0.08 } },
+  show: { transition: { staggerChildren: 0.06 } },
 };
 
-/**
- * Anasayfanın "Kurumsal Eğitimler" bölümü: trainings.ts'ten beslenen,
- * scroll'a girince stagger ile beliren responsive 4'lü kart grid'i.
- */
 export function EgitimlerGrid({ trainings }: { trainings: Training[] }) {
   return (
     <section className="relative w-full py-20 overflow-hidden">
-      <div className="absolute inset-0 pointer-events-none">
-        {/* Hareketli Izgara (Grid) Deseni */}
-        <motion.div
-          className="absolute inset-0 opacity-30"
+      {/* Statik arka plan — JS animasyonu yok, tamamen CSS */}
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+        <div
+          className="absolute inset-0 opacity-20"
           style={{
-            backgroundImage: "linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)",
-            backgroundSize: "60px 60px"
-          }}
-          animate={{
-            backgroundPosition: ["0px 0px", "60px 60px"],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "linear",
+            backgroundImage:
+              'linear-gradient(to right, rgba(255,255,255,0.08) 1px, transparent 1px), linear-gradient(to bottom, rgba(255,255,255,0.08) 1px, transparent 1px)',
+            backgroundSize: '60px 60px',
           }}
         />
-        
-        {/* Daha Parlak Yansımalar (Glowing Orbs) */}
-        <motion.div
-          className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-teal-500/30 blur-[120px]"
-          animate={{
-            x: [0, 150, 0],
-            y: [0, 80, 0],
-            scale: [1, 1.2, 1],
-          }}
-          transition={{ duration: 15, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.div
-          className="absolute -right-[10%] top-[20%] h-[600px] w-[600px] rounded-full bg-[#F2E7CE]/20 blur-[120px]"
-          animate={{
-            x: [0, -150, 0],
-            y: [0, 120, 0],
-            scale: [1, 1.3, 1],
-          }}
-          transition={{ duration: 20, repeat: Infinity, ease: 'linear' }}
-        />
-        <motion.div
-          className="absolute bottom-[-20%] left-[30%] h-[500px] w-[500px] rounded-full bg-primary-light/30 blur-[100px]"
-          animate={{
-            x: [0, 100, -100, 0],
-            y: [0, -80, 0],
-            scale: [1, 1.5, 1],
-          }}
-          transition={{ duration: 18, repeat: Infinity, ease: 'linear' }}
-        />
-        
-        {/* Grid'in kenarlarını yumuşatmak için karartma katmanı */}
+        <div className="absolute -left-[10%] -top-[10%] h-[500px] w-[500px] rounded-full bg-teal-500/20 blur-[100px]" />
+        <div className="absolute -right-[10%] top-[20%] h-[500px] w-[500px] rounded-full bg-[#F2E7CE]/15 blur-[100px]" />
+        <div className="absolute bottom-[-20%] left-[30%] h-[400px] w-[400px] rounded-full bg-primary-light/20 blur-[80px]" />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-primary-dark/50" />
       </div>
 
       <div className="relative mx-auto w-full max-w-6xl px-6">
-        <motion.div 
+        <motion.div
           className="mb-12 text-center"
-          initial={{ opacity: 0, y: 40, scale: 0.95 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
-          viewport={{ once: true, amount: 0.6 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+          initial={{ opacity: 0, y: 24 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.5 }}
+          transition={{ duration: 0.5, ease: 'easeOut' }}
         >
           <h2 className="text-3xl font-bold text-white sm:text-4xl">
             Kurumsal Eğitimler

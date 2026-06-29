@@ -8,12 +8,11 @@ import { cn, hoverCardClass } from '@/lib/utils';
 import { getTrainingIcon } from '@/lib/training-icons';
 
 const item = {
-  hidden: { opacity: 0, y: 80, scale: 0.9 },
-  show: { 
-    opacity: 1, 
-    y: 0, 
-    scale: 1,
-    transition: { type: 'spring', stiffness: 80, damping: 15, mass: 1 } 
+  hidden: { opacity: 0, y: 24 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.4, ease: 'easeOut' },
   },
 };
 
