@@ -10,7 +10,7 @@ import { CyberNetwork } from './CyberNetwork';
 
 // Hocanın portre fotoğrafı:
 // otomatik gösterilir. Dosyayı koymadan önce null bırakırsan "AAS" monogramı görünür.
-const portreUrl: string | null = '/images/press/aas.jpeg';
+const portreUrl: string | null = '/images/press/profil_aas.png';
 
 const container = {
   hidden: {},
